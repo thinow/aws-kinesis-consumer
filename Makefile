@@ -20,10 +20,10 @@ install:
 	python -m pip install -r requirements.txt
 
 mocks.start:
-    docker-compose up -d
+	docker-compose up -d
 
 mocks.stop:
-    docker-compose down
+	docker-compose down
 
 test:
 	python -m pytest -vv
