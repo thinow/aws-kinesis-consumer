@@ -1,4 +1,4 @@
-from tbd.stream_service import StreamService
+from aws_kinesis_consumer.stream_service import StreamService
 
 
 def main():
