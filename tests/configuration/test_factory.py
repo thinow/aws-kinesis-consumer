@@ -1,9 +1,17 @@
+import pytest
+
 from aws_kinesis_consumer.configuration.factory import ConfigurationFactory
 
 
 def test_stream_name():
     configuration = parse('--stream-name STREAM')
     assert configuration.stream_name == 'STREAM'
+
+
+def test_stream_name_is_required():
+    with pytest.raises(SystemExit) as error:
+        parse('')
+    assert str(error.value) == '2'
 
 
 def test_endpoint():
