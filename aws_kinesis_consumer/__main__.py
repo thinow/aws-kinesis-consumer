@@ -11,5 +11,5 @@ def main(arguments: list):
         application.wait_for_delay()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main(sys.argv[1:])
