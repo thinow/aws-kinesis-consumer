@@ -1,0 +1,9 @@
+language: python
+python: "3.7"
+before_script:
+  - make mocks.start
+  - make install
+script:
+  - make test
+after_script:
+  - make mocks.stop

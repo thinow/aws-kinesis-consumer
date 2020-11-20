@@ -19,8 +19,11 @@ install:
 	$(call check_defined, VIRTUAL_ENV, please use a virtual environment)
 	python -m pip install -r requirements.txt
 
-test: install
-	python -m pytest -vv
+mocks.start:
+    docker-compose up -d
 
-start: install
-	python -m aws_kinesis_consumer
+mocks.stop:
+    docker-compose down
+
+test:
+	python -m pytest -vv
