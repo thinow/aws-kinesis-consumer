@@ -1,10 +1,15 @@
-from aws_kinesis_consumer.stream_service import StreamService
+import sys
+
+from aws_kinesis_consumer.application import Application
 
 
-def main():
-    for stream_name in StreamService().get_names_of_streams():
-        print(stream_name)
+def main(arguments: list):
+    application = Application(arguments)
+    application.prepare()
+    while True:
+        application.consume()
+        application.wait_for_delay()
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
