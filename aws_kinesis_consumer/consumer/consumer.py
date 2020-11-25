@@ -12,19 +12,18 @@ class Consumer:
     def connect(self, configuration: Configuration):
         kinesis: Kinesis = boto3.client('kinesis', endpoint_url=configuration.endpoint)
 
-        # TODO list all the tokens (check response)
         response = kinesis.list_shards(StreamName=configuration.stream_name)
 
-        # TODO try to use lambda
-        shards = []
-        for shard in response['Shards']:
-            shards.append(Shard(
+        shards = tuple(map(
+            lambda shard: Shard(
                 stream_name=configuration.stream_name,
                 shard_id=shard['ShardId'],
                 kinesis=kinesis,
-            ))
+            ),
+            response['Shards']
+        ))
 
-        self.stream = Stream(tuple(shards), configuration, kinesis)
+        self.stream = Stream(shards, configuration, kinesis)
         self.stream.prepare()
 
     def consume(self):
