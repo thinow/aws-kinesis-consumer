@@ -19,11 +19,13 @@ install:
 	$(call check_defined, VIRTUAL_ENV, please use a virtual environment)
 	python -m pip install -r requirements.txt
 
-mocks.start:
+test.before:
 	docker-compose up -d
 
-mocks.stop:
+test.after:
 	docker-compose down
 
-test:
+test.run:
 	python -m pytest -vv
+
+test: test.before test.run test.after
