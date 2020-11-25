@@ -26,9 +26,8 @@ class ConfigurationFactory:
 
         self.parser.add_argument(
             '--iterator-type', type=str, default=IteratorType.LATEST.value, choices=[t.value for t in IteratorType],
-            # TODO review description
             help='''
-            Shard iterator type.
+            Shard iterator type which defines the shard position from which to start reading data records sequentially.
             "latest" gets the new records only.
             "trim-horizon" gets all the records from the beginning.
             (default: %(default)s)
