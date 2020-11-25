@@ -26,14 +26,17 @@ class Shard:
             print(f'<shard iterator is null, the shard seems to be closed, shard_id={self.shard_id}>', file=sys.stderr)
             return
 
-        # TODO handle errors
-        records = self.kinesis.get_records(ShardIterator=self.next_shard_iterator)
+        try:
+            records = self.kinesis.get_records(ShardIterator=self.next_shard_iterator)
 
-        for record in records.get('Records'):
-            data = record.get('Data')
-            print(str(data, encoding='UTF-8'))
+            for record in records.get('Records'):
+                data = record.get('Data')
+                print(str(data, encoding='UTF-8'))
 
-        else:
-            print(f'<no records, shard_id={self.shard_id}>', file=sys.stderr)
+            else:
+                print(f'<no records, shard_id={self.shard_id}>', file=sys.stderr)
 
-        self.next_shard_iterator = records.get('NextShardIterator')
+            self.next_shard_iterator = records.get('NextShardIterator')
+
+        except Exception as error:
+            print(f'<error, shard_id={self.shard_id}, message={error}>', file=sys.stderr)

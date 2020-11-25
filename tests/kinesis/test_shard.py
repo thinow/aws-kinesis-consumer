@@ -96,6 +96,20 @@ def test_print_records_when_next_shard_iterator_is_none(capsys: CaptureFixture):
     ]
 
 
+def test_print_records_on_error(capsys: CaptureFixture):
+    # given
+    shard, kinesis = create_shard()
+
+    kinesis.get_records.side_effect = RuntimeError('TEST-ERROR')
+
+    # when
+    shard.prepare()
+    shard.print_records()
+
+    # then
+    assert capsys.readouterr().out == ''
+
+
 def create_shard():
     kinesis = Mock()
     kinesis.get_shard_iterator.return_value = {'ShardIterator': SHARD_ITERATOR}
