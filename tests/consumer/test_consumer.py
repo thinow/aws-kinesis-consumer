@@ -1,9 +1,8 @@
 import os
-from contextlib import redirect_stdout
-from io import StringIO
 from unittest import mock
 
 import pytest
+from _pytest.capture import CaptureFixture
 
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
 from aws_kinesis_consumer.consumer.consumer import Consumer
@@ -22,7 +21,8 @@ def mocked_kinesis() -> MockedKinesis:
         yield MockedKinesis('http://localhost:4567/')
 
 
-def test_consume(mocked_kinesis: MockedKinesis):
+def test_consume(mocked_kinesis: MockedKinesis, capsys: CaptureFixture):
+    # given
     stream = mocked_kinesis.create_stream()
     stream.put_record('foo')
     stream.put_record('bar')
@@ -36,11 +36,11 @@ def test_consume(mocked_kinesis: MockedKinesis):
         delay_in_ms=0
     ))
 
-    output = StringIO()
-    with redirect_stdout(output):
-        consumer.consume()
+    # when
+    consumer.consume()
 
-    assert split_unique_lines(output.getvalue()) == {
+    # then
+    assert split_unique_lines(capsys.readouterr().out) == {
         'foo',
         'bar',
         'baz',

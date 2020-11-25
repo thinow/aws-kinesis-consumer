@@ -1,4 +1,4 @@
-.PHONY: setup freeze install test start
+.PHONY: setup freeze install test
 
 # source : https://stackoverflow.com/questions/10858261/abort-makefile-if-variable-not-set
 check_defined = \
@@ -26,6 +26,7 @@ test.after:
 	docker-compose down
 
 test.run:
+	$(call check_defined, VIRTUAL_ENV, please use a virtual environment)
 	python -m pytest -vv
 
 test: test.before test.run test.after

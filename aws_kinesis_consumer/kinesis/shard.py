@@ -14,7 +14,6 @@ class Shard:
         self.kinesis = kinesis
 
     def prepare(self):
-        # TODO handle errors
         iterator_response = self.kinesis.get_shard_iterator(
             ShardId=self.shard_id,
             StreamName=self.configuration.stream_name,
@@ -23,8 +22,11 @@ class Shard:
         self.next_shard_iterator = iterator_response.get('ShardIterator')
 
     def print_records(self) -> None:
+        if self.next_shard_iterator is None:
+            print(f'<shard iterator is null, the shard seems to be closed, shard_id={self.shard_id}>', file=sys.stderr)
+            return
+
         # TODO handle errors
-        # TODO handle None iterator
         records = self.kinesis.get_records(ShardIterator=self.next_shard_iterator)
 
         for record in records.get('Records'):
@@ -32,7 +34,6 @@ class Shard:
             print(str(data, encoding='UTF-8'))
 
         else:
-            print(f'<no records, shard_id = {self.shard_id}>', file=sys.stderr)
+            print(f'<no records, shard_id={self.shard_id}>', file=sys.stderr)
 
-        # TODO handle None NextShardIterator (shard should not be consumed anymore)
         self.next_shard_iterator = records.get('NextShardIterator')
