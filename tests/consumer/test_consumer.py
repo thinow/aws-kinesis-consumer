@@ -11,6 +11,7 @@ from aws_kinesis_consumer.configuration.configuration import Configuration
 from aws_kinesis_consumer.consumer.consumer import Consumer
 
 
+# TODO extract
 class MockedKinesis:
     endpoint: str
     kinesis: Kinesis
@@ -57,7 +58,11 @@ def test_consume():
     stream.put_record('baz')
 
     consumer = Consumer()
-    consumer.connect(Configuration(stream_name=stream.name, endpoint=mocked_kinesis.endpoint))
+    consumer.connect(Configuration(
+        stream_name=stream.name,
+        endpoint=mocked_kinesis.endpoint,
+        delay_in_ms=0
+    ))
 
     output = StringIO()
     with redirect_stdout(output):

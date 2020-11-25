@@ -24,7 +24,7 @@ class Consumer:
                 kinesis=kinesis,
             ))
 
-        self.stream = Stream(configuration.stream_name, tuple(shards), kinesis)
+        self.stream = Stream(tuple(shards), configuration, kinesis)
         self.stream.prepare()
 
     def consume(self):
