@@ -1,6 +1,6 @@
 class Configuration:
 
-    def __init__(self, stream_name: str, endpoint: str):
+    def __init__(self, stream_name: str, endpoint=None):
         self.stream_name = stream_name
         self.endpoint = endpoint
 

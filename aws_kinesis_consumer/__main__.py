@@ -1,14 +1,16 @@
 import sys
 
-from aws_kinesis_consumer.application import Application
+from aws_kinesis_consumer.application.context import Context
 
 
 def main(arguments: list):
-    application = Application(arguments)
-    application.prepare()
+    ctx = Context()
+
+    configuration = ctx.configuration_factory.create_configuration(arguments)
+
+    ctx.consumer.connect(configuration)
     while True:
-        application.consume()
-        application.wait_for_delay()
+        ctx.consumer.consume()
 
 
 if __name__ == '__main__':
