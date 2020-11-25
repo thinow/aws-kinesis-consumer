@@ -2,21 +2,23 @@ import sys
 
 from boto3_type_annotations.kinesis import Client as Kinesis
 
+from aws_kinesis_consumer.configuration.configuration import Configuration
+
 
 class Shard:
     next_shard_iterator: str
 
-    def __init__(self, stream_name: str, shard_id: str, kinesis: Kinesis) -> None:
-        self.stream_name = stream_name
+    def __init__(self, shard_id: str, configuration: Configuration, kinesis: Kinesis) -> None:
         self.shard_id = shard_id
+        self.configuration = configuration
         self.kinesis = kinesis
 
     def prepare(self):
         # TODO handle errors
         iterator_response = self.kinesis.get_shard_iterator(
-            StreamName=self.stream_name,
             ShardId=self.shard_id,
-            ShardIteratorType='TRIM_HORIZON',
+            StreamName=self.configuration.stream_name,
+            ShardIteratorType=self.configuration.iterator_type.name,
         )
         self.next_shard_iterator = iterator_response.get('ShardIterator')
 

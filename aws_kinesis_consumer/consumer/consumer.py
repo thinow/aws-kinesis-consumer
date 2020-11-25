@@ -16,8 +16,8 @@ class Consumer:
 
         shards = tuple(map(
             lambda shard: Shard(
-                stream_name=configuration.stream_name,
                 shard_id=shard['ShardId'],
+                configuration=configuration,
                 kinesis=kinesis,
             ),
             response['Shards']
