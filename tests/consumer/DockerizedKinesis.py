@@ -4,7 +4,7 @@ import boto3
 from boto3_type_annotations.kinesis import Client as Kinesis
 
 
-class MockedKinesis:
+class DockerizedKinesis:
     endpoint: str
     kinesis: Kinesis
 
@@ -12,16 +12,16 @@ class MockedKinesis:
         self.endpoint = endpoint
         self.kinesis = boto3.client('kinesis', endpoint_url=endpoint)
 
-    def create_mocked_stream(self):
-        stream_name = f'mocked-stream-{uuid.uuid4()}'
+    def create_dockerized_stream(self):
+        stream_name = f'dockerized-stream-{uuid.uuid4()}'
         self.kinesis.create_stream(
             StreamName=stream_name,
             ShardCount=1
         )
-        return MockedStream(self.kinesis, stream_name)
+        return DockerizedStream(self.kinesis, stream_name)
 
 
-class MockedStream:
+class DockerizedStream:
     def __init__(self, kinesis: Kinesis, name: str) -> None:
         self.kinesis = kinesis
         self.name = name

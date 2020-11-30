@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   kinesis:
-    build: ./docker/mocked-kinesis-server
+    build: ./docker/kinesis-server
     ports:
       - 4567:4567
     command: --port 4567 --createStreamMs 0
