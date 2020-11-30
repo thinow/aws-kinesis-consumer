@@ -4,6 +4,12 @@ from aws_kinesis_consumer.configuration.configuration import IteratorType
 from aws_kinesis_consumer.configuration.factory import ConfigurationFactory
 
 
+def test_help(capsys, snapshot):
+    with pytest.raises(SystemExit):
+        parse('--help')
+    snapshot.assert_match(capsys.readouterr().out, 'ArgumentParserHelpOutput')
+
+
 def test_stream_name():
     configuration = parse('--stream-name STREAM')
     assert configuration.stream_name == 'STREAM'
