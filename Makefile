@@ -30,3 +30,7 @@ test.run:
 	python -m pytest -vv
 
 test: test.before test.run test.after
+
+build:
+	rm -rfv *.egg-info
+	pip install -e .

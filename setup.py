@@ -22,7 +22,7 @@ if __name__ == "__main__":
         packages=find_packages(),
         install_requires=parse_requirements("requirements.txt"),
         python_requires=">=3.6.3",
-        scripts=["scripts/cli"],
+        scripts=["scripts/cli.sh"],
         description="Simply look up the records from a AWS Kinesis Data Stream",
         long_description=long_description,
         long_description_content_type="text/markdown",
