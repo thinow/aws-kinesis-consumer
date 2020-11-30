@@ -54,6 +54,8 @@ def test_prepare_should_list_shards():
     stream, kinesis = create_stream_with_mocks(Configuration(
         stream_name='any-stream-name',
         iterator_type=IteratorType.LATEST,
+        endpoint=None,
+        delay_in_ms=0,
     ))
 
     kinesis.list_shards.return_value = {
@@ -78,6 +80,8 @@ def test_prepare_should_filter_shards_based_on_iterator():
     stream, kinesis = create_stream_with_mocks(Configuration(
         stream_name='any-stream-name',
         iterator_type=IteratorType.TRIM_HORIZON,
+        endpoint=None,
+        delay_in_ms=0,
     ))
 
     # when
@@ -97,6 +101,8 @@ def test_prepare_should_list_subsequent_shards():
     stream, kinesis = create_stream_with_mocks(Configuration(
         stream_name='any-stream-name',
         iterator_type=IteratorType.LATEST,
+        endpoint=None,
+        delay_in_ms=0,
     ))
 
     kinesis.list_shards.side_effect = [
@@ -121,6 +127,8 @@ def test_prepare_should_list_using_tokens():
     stream, kinesis = create_stream_with_mocks(Configuration(
         stream_name='any-stream-name',
         iterator_type=IteratorType.LATEST,
+        endpoint=None,
+        delay_in_ms=0,
     ))
 
     kinesis.list_shards.side_effect = [

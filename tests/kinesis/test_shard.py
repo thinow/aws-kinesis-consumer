@@ -114,7 +114,7 @@ def create_shard():
     kinesis = Mock()
     kinesis.get_shard_iterator.return_value = {'ShardIterator': SHARD_ITERATOR}
 
-    configuration = Configuration(STREAM_NAME, ITERATOR_TYPE)
+    configuration = Configuration(STREAM_NAME, ITERATOR_TYPE, None, 0)
     shard = Shard(SHARD_ID, configuration, kinesis)
 
     return shard, kinesis

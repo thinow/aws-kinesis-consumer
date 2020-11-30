@@ -1,3 +1,4 @@
+import typing
 from enum import Enum
 
 
@@ -23,7 +24,12 @@ class IteratorType(Enum):
 
 class Configuration:
 
-    def __init__(self, stream_name: str, iterator_type: IteratorType, endpoint=None, delay_in_ms=1_000):
+    def __init__(self,
+                 stream_name: str,
+                 iterator_type: IteratorType,
+                 endpoint: typing.Optional[str],
+                 delay_in_ms: int,
+                 ):
         self.iterator_type = iterator_type
         self.stream_name = stream_name
         self.endpoint = endpoint

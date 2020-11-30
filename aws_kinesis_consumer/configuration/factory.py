@@ -40,7 +40,9 @@ class ConfigurationFactory:
         return Configuration(
             stream_name=parsed.stream_name,
             endpoint=parsed.endpoint,
-            iterator_type=self.get_iterator_type(parsed.iterator_type)
+            iterator_type=self.get_iterator_type(parsed.iterator_type),
+            # delay recommended by AWS, see https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html
+            delay_in_ms=1_000
         )
 
     @staticmethod
