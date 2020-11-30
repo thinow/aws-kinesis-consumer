@@ -24,7 +24,8 @@ class Shard:
 
     def print_records(self) -> None:
         if self.next_shard_iterator is None:
-            print(f'<shard iterator is null, the shard seems to be closed, shard_id={self.shard_id}>', file=sys.stderr)
+            print(f'<shard iterator is null, the shard seems to be closed, shard_id={self.shard_id}>', file=sys.stderr,
+                  flush=True)
             return
 
         try:
@@ -32,12 +33,12 @@ class Shard:
 
             for record in records.get('Records'):
                 data = record.get('Data')
-                print(str(data, encoding='UTF-8'))
+                print(str(data, encoding='UTF-8'), flush=True)
 
             else:
-                print(f'<no records, shard_id={self.shard_id}>', file=sys.stderr)
+                print(f'<no records, shard_id={self.shard_id}>', file=sys.stderr, flush=True)
 
             self.next_shard_iterator = records.get('NextShardIterator')
 
         except Exception as error:
-            print(f'<error, shard_id={self.shard_id}, message={error}>', file=sys.stderr)
+            print(f'<error, shard_id={self.shard_id}, message={error}>', file=sys.stderr, flush=True)

@@ -1,3 +1,4 @@
+import json
 import random
 import time
 
@@ -26,10 +27,10 @@ for index in range(10_000):
     kinesis.put_record(
         StreamName=STREAM,
         PartitionKey=str(value),
-        Data=str({
+        Data=json.dumps({
             'status': 'OK',
             'value': value,
-        }).encode('UTF-8')
+        })
     )
     print(f'record produced with value={value}')
     time.sleep(0.2)
