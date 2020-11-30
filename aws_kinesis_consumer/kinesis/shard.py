@@ -1,5 +1,5 @@
 import sys
-from time import sleep
+import time
 
 from boto3_type_annotations.kinesis import Client as Kinesis
 
@@ -51,4 +51,4 @@ class Shard:
     def wait_for_delay(self):
         delay_in_mils = self.configuration.delay_in_ms
         delay_in_secs = delay_in_mils / 1_000
-        sleep(delay_in_secs)
+        time.sleep(delay_in_secs)
