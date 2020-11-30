@@ -4,9 +4,9 @@ from unittest import mock
 import pytest
 from _pytest.capture import CaptureFixture
 
+from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
-from aws_kinesis_consumer.consumer.consumer import Consumer
-from tests.aws.aws_services_factory import AWSServicesFactory
+from aws_kinesis_consumer.kinesis.stream import Stream
 from tests.consumer.MockedKinesis import MockedKinesis
 
 MOCKED_AWS_ENV_VARS = {
@@ -24,21 +24,21 @@ def mocked_kinesis() -> MockedKinesis:
 
 def test_consume(mocked_kinesis: MockedKinesis, capsys: CaptureFixture):
     # given
-    stream = mocked_kinesis.create_stream()
-    stream.put_record('foo')
-    stream.put_record('bar')
-    stream.put_record('baz')
+    mocked_stream = mocked_kinesis.create_mocked_stream()
+    mocked_stream.put_record('foo')
+    mocked_stream.put_record('bar')
+    mocked_stream.put_record('baz')
 
-    consumer = Consumer(AWSServicesFactory())
-    consumer.connect(Configuration(
-        stream_name=stream.name,
+    stream = Stream(AWSServicesFactory(), Configuration(
+        stream_name=mocked_stream.name,
         endpoint=mocked_kinesis.endpoint,
         iterator_type=IteratorType.TRIM_HORIZON,
         delay_in_ms=0
     ))
 
     # when
-    consumer.consume()
+    stream.prepare()
+    stream.print_records()
 
     # then
     assert split_unique_lines(capsys.readouterr().out) == {

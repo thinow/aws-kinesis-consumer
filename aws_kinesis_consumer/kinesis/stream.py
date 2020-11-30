@@ -1,8 +1,8 @@
 from time import sleep
 
+from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
 from aws_kinesis_consumer.configuration.configuration import Configuration
 from aws_kinesis_consumer.kinesis.shard import Shard
-from tests.aws.aws_services_factory import AWSServicesFactory
 
 
 class Stream:
@@ -33,10 +33,7 @@ class Stream:
         return tuple(shards)
 
     def print_records(self):
-        shard: Shard
-        for shard in self.shards:
-            shard.print_records()
-
+        [shard.print_records() for shard in self.shards]
         self.wait_for_delay()
 
     def wait_for_delay(self):

@@ -12,7 +12,7 @@ class MockedKinesis:
         self.endpoint = endpoint
         self.kinesis = boto3.client('kinesis', endpoint_url=endpoint)
 
-    def create_stream(self):
+    def create_mocked_stream(self):
         stream_name = f'mocked-stream-{uuid.uuid4()}'
         self.kinesis.create_stream(
             StreamName=stream_name,
