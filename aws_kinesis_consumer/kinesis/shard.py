@@ -1,4 +1,5 @@
 import sys
+from time import sleep
 
 from boto3_type_annotations.kinesis import Client as Kinesis
 
@@ -42,3 +43,12 @@ class Shard:
 
         except Exception as error:
             print(f'<error, shard_id={self.shard_id}, message={error}>', file=sys.stderr, flush=True)
+
+        finally:
+            # delay recommended by AWS, see https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html
+            self.wait_for_delay()
+
+    def wait_for_delay(self):
+        delay_in_mils = self.configuration.delay_in_ms
+        delay_in_secs = delay_in_mils / 1_000
+        sleep(delay_in_secs)

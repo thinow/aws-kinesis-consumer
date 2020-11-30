@@ -1,5 +1,3 @@
-from time import sleep
-
 from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorTypeProperties
 from aws_kinesis_consumer.kinesis.shard import Shard
@@ -22,8 +20,8 @@ class Stream:
         shards_ids = self.find_shards_ids(kinesis)
 
         shards = map(
-            lambda id: Shard(
-                shard_id=id,
+            lambda shard_id: Shard(
+                shard_id=shard_id,
                 configuration=self.configuration,
                 kinesis=kinesis
             ),
@@ -57,10 +55,5 @@ class Stream:
             return list(shards_ids)
 
     def print_records(self):
-        [shard.print_records() for shard in self.shards]
-        self.wait_for_delay()
-
-    def wait_for_delay(self):
-        delay_in_mils = self.configuration.delay_in_ms
-        delay_in_secs = delay_in_mils / 1_000
-        sleep(delay_in_secs)
+        for shard in self.shards:
+            shard.print_records()
