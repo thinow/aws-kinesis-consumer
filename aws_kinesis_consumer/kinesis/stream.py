@@ -1,22 +1,36 @@
 from time import sleep
 
-from boto3_type_annotations.kinesis import Client as Kinesis
-
 from aws_kinesis_consumer.configuration.configuration import Configuration
 from aws_kinesis_consumer.kinesis.shard import Shard
+from tests.aws.aws_services_factory import AWSServicesFactory
 
 
 class Stream:
+    shards: tuple
 
-    def __init__(self, shards: tuple, configuration: Configuration, kinesis: Kinesis) -> None:
-        self.shards = shards
+    def __init__(self, aws_services_factory: AWSServicesFactory, configuration: Configuration) -> None:
+        self.aws_services_factory = aws_services_factory
         self.configuration = configuration
-        self.kinesis = kinesis
 
     def prepare(self):
-        shard: Shard
-        for shard in self.shards:
-            shard.prepare()
+        kinesis = self.aws_services_factory.create_kinesis(self.configuration)
+        shards = self.create_shards(kinesis)
+        [shard.prepare() for shard in shards]
+        self.shards = shards
+
+    def create_shards(self, kinesis) -> tuple:
+        response = kinesis.list_shards(StreamName=self.configuration.stream_name)
+
+        shards = map(
+            lambda shard_from_response: Shard(
+                shard_id=shard_from_response['ShardId'],
+                configuration=self.configuration,
+                kinesis=kinesis
+            ),
+            response['Shards']
+        )
+
+        return tuple(shards)
 
     def print_records(self):
         shard: Shard
