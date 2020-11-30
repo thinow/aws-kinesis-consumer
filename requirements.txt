@@ -11,6 +11,7 @@ py==1.9.0
 pyparsing==2.4.7
 pytest==6.1.2
 pytest-asyncio==0.14.0
+pytest-snapshot==0.4.2
 python-dateutil==2.8.1
 s3transfer==0.3.3
 six==1.15.0
