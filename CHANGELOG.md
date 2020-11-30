@@ -1,4 +1,4 @@
-# 1.0.0
+# 1.0.0 (2020-11-30)
 
 1. Consume a stream base on the name (e.g. `--stream-name` argument)
 2. Consume existing records or only the new records (e.g. `--iterator-type`)
