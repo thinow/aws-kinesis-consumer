@@ -6,6 +6,7 @@ from _pytest.capture import CaptureFixture
 
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
 from aws_kinesis_consumer.consumer.consumer import Consumer
+from tests.aws.aws_services_factory import AWSServicesFactory
 from tests.consumer.MockedKinesis import MockedKinesis
 
 MOCKED_AWS_ENV_VARS = {
@@ -28,7 +29,7 @@ def test_consume(mocked_kinesis: MockedKinesis, capsys: CaptureFixture):
     stream.put_record('bar')
     stream.put_record('baz')
 
-    consumer = Consumer()
+    consumer = Consumer(AWSServicesFactory())
     consumer.connect(Configuration(
         stream_name=stream.name,
         endpoint=mocked_kinesis.endpoint,
