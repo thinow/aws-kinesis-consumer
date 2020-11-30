@@ -1,7 +1,7 @@
 from time import sleep
 
 from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
-from aws_kinesis_consumer.configuration.configuration import Configuration
+from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorTypeProperties
 from aws_kinesis_consumer.kinesis.shard import Shard
 
 
@@ -14,12 +14,18 @@ class Stream:
 
     def prepare(self):
         kinesis = self.aws_services_factory.create_kinesis(self.configuration)
-        shards = self.create_shards(kinesis)
+        shards = self.find_shards(kinesis)
         [shard.prepare() for shard in shards]
         self.shards = shards
 
-    def create_shards(self, kinesis) -> tuple:
-        response = kinesis.list_shards(StreamName=self.configuration.stream_name)
+    def find_shards(self, kinesis) -> tuple:
+        iterator_type: IteratorTypeProperties = self.configuration.iterator_type.value
+        response = kinesis.list_shards(
+            StreamName=self.configuration.stream_name,
+            ShardFilter={
+                'Type': iterator_type.shard_filter_type
+            }
+        )
 
         shards = map(
             lambda shard_from_response: Shard(

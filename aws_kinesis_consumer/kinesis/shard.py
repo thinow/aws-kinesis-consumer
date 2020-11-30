@@ -2,7 +2,7 @@ import sys
 
 from boto3_type_annotations.kinesis import Client as Kinesis
 
-from aws_kinesis_consumer.configuration.configuration import Configuration
+from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorTypeProperties
 
 
 class Shard:
@@ -14,10 +14,11 @@ class Shard:
         self.kinesis = kinesis
 
     def prepare(self):
+        iterator_type_properties: IteratorTypeProperties = self.configuration.iterator_type.value
         iterator_response = self.kinesis.get_shard_iterator(
             ShardId=self.shard_id,
             StreamName=self.configuration.stream_name,
-            ShardIteratorType=self.configuration.iterator_type.name,
+            ShardIteratorType=iterator_type_properties.shard_iterator_type,
         )
         self.next_shard_iterator = iterator_response.get('ShardIterator')
 

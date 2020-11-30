@@ -25,7 +25,8 @@ class ConfigurationFactory:
         )
 
         self.parser.add_argument(
-            '--iterator-type', type=str, default=IteratorType.LATEST.value, choices=[t.value for t in IteratorType],
+            '--iterator-type', type=str, default=IteratorType.LATEST.value.argument,
+            choices=[t.value.argument for t in IteratorType],
             help='''
             Shard iterator type which defines the shard position from which to start reading data records sequentially.
             "latest" gets the new records only.
@@ -39,5 +40,13 @@ class ConfigurationFactory:
         return Configuration(
             stream_name=parsed.stream_name,
             endpoint=parsed.endpoint,
-            iterator_type=IteratorType(parsed.iterator_type)
+            iterator_type=self.get_iterator_type(parsed.iterator_type)
         )
+
+    @staticmethod
+    def get_iterator_type(argument_value):
+        for iterator_type in IteratorType:
+            if iterator_type.value.argument == argument_value:
+                return iterator_type
+        else:
+            raise ValueError(f'Cannot find IteratorType with argument "{argument_value}"')
