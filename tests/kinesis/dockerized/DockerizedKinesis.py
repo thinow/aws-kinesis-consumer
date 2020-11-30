@@ -3,6 +3,12 @@ import uuid
 import boto3
 from boto3_type_annotations.kinesis import Client as Kinesis
 
+DUMMY_AWS_ENV_VARS = {
+    "AWS_DEFAULT_REGION": "anything",
+    "AWS_ACCESS_KEY_ID": "anything",
+    "AWS_SECRET_ACCESS_KEY": "anything",
+}
+
 
 class DockerizedKinesis:
     endpoint: str

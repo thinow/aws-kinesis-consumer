@@ -9,13 +9,8 @@ from boto3_type_annotations.kinesis import Client
 from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
 from aws_kinesis_consumer.kinesis.stream import Stream
-from tests.consumer.DockerizedKinesis import DockerizedKinesis
-
-DUMMY_AWS_ENV_VARS = {
-    "AWS_DEFAULT_REGION": "anything",
-    "AWS_ACCESS_KEY_ID": "anything",
-    "AWS_SECRET_ACCESS_KEY": "anything",
-}
+from tests.kinesis.dockerized.DockerizedKinesis import DUMMY_AWS_ENV_VARS
+from tests.kinesis.dockerized.DockerizedKinesis import DockerizedKinesis
 
 
 @pytest.fixture
