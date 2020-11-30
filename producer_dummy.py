@@ -22,7 +22,7 @@ except:
     pass
 
 for index in range(10_000):
-    value = random.randint(1000, 9999)
+    value = random.randint(1_000, 10_000)
     kinesis.put_record(
         StreamName=STREAM,
         PartitionKey=str(value),

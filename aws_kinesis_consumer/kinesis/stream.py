@@ -43,10 +43,6 @@ class Stream:
             )
         else:
             response = kinesis.list_shards(
-                StreamName=self.configuration.stream_name,
-                ShardFilter={
-                    'Type': iterator_type.shard_filter_type
-                },
                 NextToken=next_token,
             )
 
