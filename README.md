@@ -15,7 +15,7 @@ operations, and so on.
 ``aws-kinesis-consumers`` in contrary is able to get records from the stream name only. So users can simply scrap a stream
 to watch some records without any extra script.
 
-# Install
+## Install
 
 [Python 3.6+](https://www.python.org/downloads/) needs to be already installed, then :
 
@@ -23,19 +23,19 @@ to watch some records without any extra script.
 pip install aws-kinesis-consumer
 ```
 
-# Usage
+## Usage
 
 Just as the [AWS CLI](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/kinesis/index.html),
 ``aws-kinesis-consumer`` will use the AWS credentials pre-configured on the machine. Here are more details to [setup AWS
 credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
 
-## Consume a stream
+### Consume a stream
 
 ```shell
 aws-kinesis-consumer --stream-name MyStream
 ```
 
-## Define position of the expected messages in the stream
+### Define position of the expected messages in the stream
 
 ```shell
 # Consume only the new messages
@@ -45,13 +45,13 @@ aws-kinesis-consumer --stream-name MyStream --iterator-type latest
 aws-kinesis-consumer --stream-name MyStream --iterator-type trim-horizon
 ```
 
-## Consume a stream hosted in a different region
+### Consume a stream hosted in a different region
 
 ```shell
 AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyGermanStream
 ```
 
-## Define endpoint different from the default AWS service endpoint
+### Define endpoint different from the default AWS service endpoint
 
 ```shell
 # Consuming from a different AWS endpoint url
@@ -62,8 +62,12 @@ aws-kinesis-consumer --stream-name MyStream --endpoint https://another.kinesis.u
 aws-kinesis-consumer --stream-name MyStream --endpoint http://localhost:4567/
 ```
 
-## Display help
+### Display help
 
 ```shell
 aws-kinesis-consumer --help
 ```
+
+## Special thanks
+
+* Thanks to the contributors of the [kinesalite](https://github.com/mhart/kinesalite) project which make test and development of this project extremely easy and reliable!
