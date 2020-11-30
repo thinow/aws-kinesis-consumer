@@ -3,3 +3,7 @@ python: "3.6"
 script:
   - make test
   - make build
+deploy:
+  provider: pypi
+  username: "__token__"
+  password: "pypi-AgEIcHlwaS5vcmcCJGVhYmYzMDZiLTZlYjktNDhlZi04MDM3LWZlMjQxMWU2NTZiNQACJXsicGVybWlzc2lvbnMiOiAidXNlciIsICJ2ZXJzaW9uIjogMX0AAAYgcvQC7bSmh7SoxPEamve4cPr2sIRuXLE6t2kUMzKX9h0"
