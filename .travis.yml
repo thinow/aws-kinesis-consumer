@@ -2,8 +2,9 @@ language: python
 python: "3.6"
 script:
   - make test
-  - make build
 deploy:
   provider: pypi
   username: "__token__"
-  password: "pypi-AgEIcHlwaS5vcmcCJGVhYmYzMDZiLTZlYjktNDhlZi04MDM3LWZlMjQxMWU2NTZiNQACJXsicGVybWlzc2lvbnMiOiAidXNlciIsICJ2ZXJzaW9uIjogMX0AAAYgcvQC7bSmh7SoxPEamve4cPr2sIRuXLE6t2kUMzKX9h0"
+  password: "pypi-AgEIcHlwaS5vcmcCJDZhNjQ4ZDg0LWNiODYtNDQ1OC05ZmZlLTczNWJhMjQ1M2M3NAACRXsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJhd3Mta2luZXNpcy1jb25zdW1lciJdfSwgInZlcnNpb24iOiAxfQAABiBVn6VeG0-8NEaeh7HxKxyBeh5glyvITYrkLnEdxnEU2A"
+  on:
+    tags: true

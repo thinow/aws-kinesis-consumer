@@ -1,5 +1,4 @@
 [![PyPI version](https://img.shields.io/pypi/v/aws-kinesis-consumer.svg)](https://pypi.org/project/aws-kinesis-consumer)
-[![Python versions](https://img.shields.io/pypi/pyversions/aws-kinesis-consumer.svg)](https://pypi.org/project/aws-kinesis-consumer)
 [![Build Status](https://travis-ci.com/thinow/aws-kinesis-consumer.svg?token=vwaCq8jYcvaxfHBRGUqa&branch=master)](https://travis-ci.com/thinow/aws-kinesis-consumer)
 
 # aws-kinesis-consumer
