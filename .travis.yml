@@ -1,10 +1,11 @@
 language: python
-python: "3.6"
+python: '3.6'
 script:
-  - make test
+- make test
 deploy:
   provider: pypi
-  username: "__token__"
-  password: "pypi-AgEIcHlwaS5vcmcCJDZhNjQ4ZDg0LWNiODYtNDQ1OC05ZmZlLTczNWJhMjQ1M2M3NAACRXsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJhd3Mta2luZXNpcy1jb25zdW1lciJdfSwgInZlcnNpb24iOiAxfQAABiBVn6VeG0-8NEaeh7HxKxyBeh5glyvITYrkLnEdxnEU2A"
+  username: __token__
+  password:
+    secure: V+0p+jWTFoIGuFw6LDM7ege9pK4DKZHqKQXbj8/bFdF74aKgbmix4mOROzBw2tWUj6udvdZ08t0SIS4TSM69xrVdtjPbOwfKtc0u3M/K8a4CS5W3ny55rihw7Ms5iSHobFR/8y5fdqj8I9bvEQvwjuwE6OcZmAizXHVRWWfMq+MlwCKTzfCtJXJvbLueBinXdlweqY4PvfiZL7bBIFvyLKGDWwuU7rBgzKQUJmDOzBDPqXXjj4O2OqdG9ixYqJ88dWXR5OmfWC+ulSQmw5fj0+73zqdZW35U5w8a+qlFK1WxFhCuCA8bJrlMMPcz11zBkX2dB2hHTtoVZvtx5cj4qW3XjcYwqjHlWURMrFvi4Pt2id7EhkwDUwcaMMTKh+VYUF29/XJ+23zxaQ+0FfuVhX8XNzJvm9Cj1t5ITDwaWOX2YgDGEGE7uVi54ktuJQszESZ3T3LeGYL/5it1YtvQFiGllcTENODLIcGU/V25FmFdOF8tvtz7AcemrJQqotIo81vzI8Gx1AdRaFIZIfoJW1SGQtxHzU26kq4NrvQDRRAwrpccu+gwra+Zr77VOfiKgXirRPRmUuemEK+SI6Afwr7hzJAEFAmlGiv4MFtVULA+UBBaclVTVoc/5WbJBB0abxpSslZSmPg7FFj0139/20wUNjvefNHYDKeunFG482c=
   on:
     tags: true
