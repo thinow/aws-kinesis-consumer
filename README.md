@@ -5,6 +5,16 @@
 
 Consume an [AWS Kinesis Data Stream](https://aws.amazon.com/kinesis/data-streams/) to look over the records from a terminal.
 
+## Demo
+
+```shell
+$ aws-kinesis-consumer --stream-name MyStream
+
+Record-001
+Record-002
+Record-003
+```
+
 ## Motivation
 
 The [AWS CLI](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/kinesis/index.html) is able to fetch
@@ -66,8 +76,6 @@ aws-kinesis-consumer --stream-name MyStream --endpoint http://localhost:4567/
 ```shell
 aws-kinesis-consumer --help
 ```
-
-## FAQ
 
 ## Special thanks
 
