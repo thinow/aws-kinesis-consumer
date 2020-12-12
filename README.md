@@ -79,6 +79,28 @@ operations, and so on.
 ``aws-kinesis-consumers`` in contrary is able to get records by using the stream name, and only the stream name.
 Therefore there is no need for an extra script.
 
+### How to filter the records ?
+
+`aws-kinesis-consumer` can be piped with other command such as [grep](https://www.man7.org/linux/man-pages/man1/grep.1.html),
+or even [jq](https://stedolan.github.io/jq/) to filter json records.
+
+```shell script
+# all the records
+$ aws-kinesis-consumer --stream-name MyStream
+{"name":"foo", "status":"ok"}
+{"name":"bar", "status":"pending"}
+{"name":"baz", "status":"error"}
+
+# records containing the text "ba" (e.g. "bar" and "baz", but not "foo")
+$ aws-kinesis-consumer --stream-name MyStream | grep "ba"
+{"name":"bar", "status":"pending"}
+{"name":"baz", "status":"error"}
+
+# records where the json property "status" has the value "error"
+$ aws-kinesis-consumer --stream-name MyStream | jq 'contains({status:"error"})'
+{"name":"baz", "status":"error"}
+```
+
 ## Special thanks
 
 * Thanks to the contributors of the [kinesalite](https://github.com/mhart/kinesalite) project which make test and development of this project extremely easy and reliable!
