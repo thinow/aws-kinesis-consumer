@@ -27,9 +27,38 @@ pip install aws-kinesis-consumer
 
 ## Usage
 
+### Connect to AWS
+
 Just as the [AWS CLI](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/kinesis/index.html),
-``aws-kinesis-consumer`` will use the AWS credentials pre-configured on the machine. Here are more details to [setup AWS
-credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
+``aws-kinesis-consumer`` will use the AWS credentials from the [AWS environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html#envvars-list).
+
+**Recommended:** When working from a local machine, [`aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-methods)
+can be executed once to set the environment variables :
+
+```shell script
+# execute aws configure once...
+$ aws configure
+AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+Default region name [None]: eu-central-1
+
+# ...then use aws-kinesis-consumer
+$ aws-kinesis-consumer --stream-name MyStream
+```
+
+Alternatively, you can manually set AWS environment variables :
+
+```shell script
+# set the AWS environment variables...
+$ export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+$ export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+$ export AWS_DEFAULT_REGION=eu-central-1
+
+# ...then use aws-kinesis-consumer
+$ aws-kinesis-consumer --stream-name MyStream
+```
+
+### Arguments
 
 | Argument | Default | Description |
 | -------- | ------- | ----------- |
