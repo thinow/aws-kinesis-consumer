@@ -3,7 +3,7 @@
 
 # aws-kinesis-consumer
 
-``aws-kinesis-consumer`` offers the ability to simply look up the records from a AWS Kinesis Data Stream.
+Consume an [AWS Kinesis Data Stream](https://aws.amazon.com/kinesis/data-streams/) to look over the records from a terminal.
 
 ## Motivation
 
@@ -66,6 +66,8 @@ aws-kinesis-consumer --stream-name MyStream --endpoint http://localhost:4567/
 ```shell
 aws-kinesis-consumer --help
 ```
+
+## FAQ
 
 ## Special thanks
 

@@ -22,7 +22,7 @@ if __name__ == '__main__':
         ],
         python_requires='>=3.6',
         scripts=['cli/aws-kinesis-consumer'],
-        description='Simply look up the records from a AWS Kinesis Data Stream',
+        description='Consume an AWS Kinesis Data Stream to look over the records from a terminal',
         long_description=long_description,
         long_description_content_type='text/markdown',
     )
