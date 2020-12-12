@@ -31,6 +31,10 @@ test.run:
 
 test: test.before test.run test.after
 
+demo:
+	AWS_DEFAULT_REGION=any AWS_SECRET_ACCESS_KEY=any AWS_ACCESS_KEY_ID=any \
+		python -m aws_kinesis_consumer --endpoint http://localhost:4567/ --stream-name foo
+
 build:
 	rm -rfv *.egg-info
 	pip install -e .
