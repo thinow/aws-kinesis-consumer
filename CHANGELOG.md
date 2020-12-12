@@ -1,3 +1,7 @@
+# 1.0.1 (2020-12-12)
+
+1. Bug fix : prints the correct number of records per shard
+
 # 1.0.0 (2020-12-01)
 
 1. Consume a stream base on the name (e.g. `--stream-name` argument)
