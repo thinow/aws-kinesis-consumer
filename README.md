@@ -70,7 +70,7 @@ aws-kinesis-consumer --help
 
 ## FAQ
 
-### Why not using AWS CLI to consume an AWS Kinesis Stream ?
+### What is the motivation ? What is the issue with AWS CLI ?
 
 The [AWS CLI](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/kinesis/index.html) is able to fetch
 records from Kinesis, but the users need to list the shards, to generate iterator tokens, use subsequent tokens, delay
@@ -99,6 +99,34 @@ $ aws-kinesis-consumer --stream-name MyStream | grep "ba"
 # records where the json property "status" has the value "error"
 $ aws-kinesis-consumer --stream-name MyStream | jq 'contains({status:"error"})'
 {"name":"baz", "status":"error"}
+```
+
+### What are the required AWS permissions ?
+
+`aws-kinesis-consumer` requires the following AWS permissions :
+* [kinesis:ListShards](https://docs.aws.amazon.com/kinesis/latest/APIReference/API_ListShards.html)
+* [kinesis:GetShardIterator](https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetShardIterator.html)
+* [kinesis:GetRecords](https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html)
+
+The following policy is an example which can be applied to an AWS user or an AWS role :
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kinesis:ListShards",
+                "kinesis:GetShardIterator",
+                "kinesis:GetRecords"
+            ],
+            "Resource": [
+                "arn:aws:kinesis:REGION:ACCOUNT-ID:stream/STREAM-NAME"
+            ]
+        }
+    ]
+}
 ```
 
 ## Special thanks
