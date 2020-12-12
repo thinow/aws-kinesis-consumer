@@ -34,7 +34,8 @@ credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-file
 | `--stream-name` _(required)_ | | Name of the AWS Kinesis Stream. |
 | `--iterator-type` | `latest` | Defines how to start consuming records from the stream. Use `latest` to consume the new records only. Or use `trim-horizon` to consume all the records already existing in the stream. |
 | `--endpoint` |  | Custom AWS endpoint url to communicate with the AWS API. Could be used in order to specify a region (e.g. `https://kinesis.us-east-1.amazonaws.com/`). |
-| `--help` | | Shows the help message. | 
+| `--help` | | Shows the help message. |
+|<img width="325"/>|<img width="0"/>|<img width="0"/>|
 
 ## FAQ
 
