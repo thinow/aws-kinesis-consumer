@@ -45,7 +45,12 @@ def test_print_records(capsys: CaptureFixture):
 
     # then
     kinesis.get_records.assert_called_with(ShardIterator=SHARD_ITERATOR)
-    assert capsys.readouterr().out.splitlines() == [
+
+    output = capsys.readouterr()
+    assert output.err.splitlines() == [
+        '<shard_id=SHARD_ID, records=2>'
+    ]
+    assert output.out.splitlines() == [
         'RECORD-1',
         'RECORD-2',
     ]
@@ -88,7 +93,7 @@ def test_print_records_when_no_records(capsys: CaptureFixture):
 
     # then
     assert capsys.readouterr().err.splitlines() == [
-        '<no records, shard_id=SHARD_ID>'
+        '<shard_id=SHARD_ID, records=0>'
     ]
 
 
@@ -120,7 +125,7 @@ def test_print_records_when_next_shard_iterator_is_none(capsys: CaptureFixture):
 
     # then
     assert capsys.readouterr().err.splitlines() == [
-        '<no records, shard_id=SHARD_ID>',
+        '<shard_id=SHARD_ID, records=0>',
         '<shard iterator is null, the shard seems to be closed, shard_id=SHARD_ID>',
     ]
 

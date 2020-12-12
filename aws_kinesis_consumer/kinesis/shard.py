@@ -30,16 +30,15 @@ class Shard:
             return
 
         try:
-            records = self.kinesis.get_records(ShardIterator=self.next_shard_iterator)
+            response = self.kinesis.get_records(ShardIterator=self.next_shard_iterator)
 
-            for record in records.get('Records'):
+            records = response.get('Records')
+            print(f'<shard_id={self.shard_id}, records={len(records)}>', file=sys.stderr, flush=True)
+            for record in records:
                 data = record.get('Data')
                 print(str(data, encoding='UTF-8'), flush=True)
 
-            else:
-                print(f'<no records, shard_id={self.shard_id}>', file=sys.stderr, flush=True)
-
-            self.next_shard_iterator = records.get('NextShardIterator')
+            self.next_shard_iterator = response.get('NextShardIterator')
 
         except Exception as error:
             print(f'<error, shard_id={self.shard_id}, message={error}>', file=sys.stderr, flush=True)
