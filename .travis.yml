@@ -1,5 +1,8 @@
 language: python
 python: '3.6'
+env:
+  # In Travis CI, Pipenv would itself run within a virtual environment. The following forces pipenv to ignore that environment and create its own instead.
+  - PIPENV_IGNORE_VIRTUALENVS=1
 install:
   - pipenv install --dev
 script:
