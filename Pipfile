@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+boto3 = "*"
+boto3-type-annotations = "*"
+
+[dev-packages]
+invoke = "*"
+pytest = "*"
+pytest-asyncio = "*"
+pytest-snapshot = "*"
+
+[requires]
+python_version = "3.9"
