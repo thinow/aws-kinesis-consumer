@@ -1,7 +1,7 @@
 language: python
 python: '3.6'
 script:
-- make test
+- invoke test
 deploy:
   provider: pypi
   username: __token__
