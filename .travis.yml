@@ -1,7 +1,9 @@
 language: python
 python: '3.6'
+install:
+  - pipenv install --dev
 script:
-- invoke test
+  - pipenv run inv test
 deploy:
   provider: pypi
   username: __token__
