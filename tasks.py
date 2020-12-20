@@ -12,6 +12,13 @@ def test(c):
 
 
 @task
+def dist(c):
+    c.run('rm -rf dist/')
+    c.run('pipenv-setup sync')
+    c.run('python setup.py sdist bdist_wheel')
+
+
+@task
 def demo(c, action):
     if action == 'consume':
         DemoConsumer.run(c, 'http://localhost:4567/', 'foo')
