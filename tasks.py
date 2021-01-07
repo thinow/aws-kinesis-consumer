@@ -19,6 +19,16 @@ def build(c):
 
 
 @task
+def dockerbuild(c):
+    build_folder = 'docker-build'
+    c.run(f'rm -rvf {build_folder}')
+    c.run(f'mkdir -v {build_folder}')
+    for filepath in ['aws_kinesis_consumer', 'Pipfile', 'Pipfile.lock', 'docker/aws-kinesis-consumer/Dockerfile']:
+        c.run(f'cp -Rv {filepath} {build_folder}')
+    c.run(f'docker build -t aws-kinesis-consumer {build_folder}')
+
+
+@task
 def deploy(c, destination):
     if destination == 'staging':
         c.run('pip install twine==3.2.0')
