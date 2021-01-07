@@ -12,6 +12,7 @@ optional arguments:
                         "latest" gets the new records only. "trim-horizon"
                         gets all the records from the beginning. (default:
                         latest)
+  --version             show program's version number and exit
 
 required named arguments:
   --stream-name STREAM_NAME
