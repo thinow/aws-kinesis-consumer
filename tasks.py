@@ -1,7 +1,7 @@
 from invoke import task
 
-from demo.demo_consumer import DemoConsumer
-from demo.demo_producer import DemoProducer
+from tasks_helper.demo.demo_consumer import DemoConsumer
+from tasks_helper.demo.demo_producer import DemoProducer
 
 
 @task

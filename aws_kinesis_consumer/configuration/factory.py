@@ -1,4 +1,3 @@
-import sys
 from argparse import ArgumentParser
 
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
