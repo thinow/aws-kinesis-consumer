@@ -38,3 +38,8 @@ def demo(c, action):
         DemoProducer.run(c, 'http://localhost:4567/', 'foo')
     else:
         raise ValueError(f'Unknown argument : {action}')
+
+
+@task
+def snapshots(c):
+    c.run('pytest --snapshot-update')
