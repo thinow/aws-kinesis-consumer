@@ -1,6 +1,9 @@
 language: python
 python: '3.6'
 
+services:
+  - docker
+
 env:
   global:
     # In Travis CI, Pipenv would itself run within a virtual environment. The following forces pipenv to ignore that environment and create its own instead.
@@ -12,41 +15,36 @@ install:
 jobs:
   include:
 
-    - stage: test
-      name: Test
-      script:
-        - pipenv run invoke test
-
-    - stage: publish_pypi_test_master
-      name: Publish to Pypi (test/master)
-      env:
-        - TWINE_USERNAME=__token__
-        # TWINE_PASSWORD=[secure]
-        # TODO - secure: ???
+    - stage: master
+      # TODO provide TWINE and DOCKER variables
       script:
         - pipenv run invoke dist
         - pipenv run pip install twine==3.2.0
         - pipenv run twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
 
-    - stage: publish_pypi_test_develop
-      name: Publish to Pypi (test/develop)
+    - stage: develop
       env:
+        - DOCKER_USERNAME=thinow
+        # DOCKER_PASSWORD=[secure]
+        - secure: njMv5FsuAhiLfb8RxU1kH2ET8KQFM6vmuyEXzoUpU+xa1u3d2fxSPy+VPPx7rLPu0K3HDHOAuZBiLyAn4m2ogWqmbMHYA9pnoq24IkNIZmkft1zQ8DXUgv4mYnufMwTgDTuWGzeDmN/dmBj4fixsNj06YXHVZqeXx5wB4e6fGWaAgaiqPwnx6/wFhM0zsDYjTv0C5Xob0Zjp6ijTOAf7zBdnGNz9gMe70GswpE9d70Mf6j2q/LgkqgT/DNYGgd4h/gYuTUiujTH5HvBxGo//ND5a7Q2N8O3E5BoXBmObsXgwrM4YXLx0D1J90OxOxh7Lc76sRUA7drDSe8Whdxbv77M1a9isSv90hxIGqfPtWZZSKXX9hfg+a4HdW0qUXqdux/hStc2es2YKNa0eFUCQX9Km9etOQ2mMiicol9Ib9Bh5mqhnxzYFUO/hS2JIN5xKmB+YxImM5C6jJ5IQUVC5StKvDgx7IRLLXJfb9gjLT/mBnxbaeJcSN1cvgr7xlMBcHxRlCc+tiXLtMe0yWC1UQI/wOdBpjAe+eWcukJFdhCv7QKqnaepGjO0+DhaH3BAQv+Z9But9genwQe/+IQeLRug5NZ3mK9YnfCfITHqSyY8Oe+cz1vp/tlZBXOhyvFTFbgqPzeskttrrBwoReXw08Cvr7+z483rvLEfjOj+nDb0=
         - TWINE_USERNAME=__token__
         # TWINE_PASSWORD=[secure]
         - secure: EEZOeUOk7WbkhzaMjBZdnabzfUk1Y99uyWixw+Nl66iRKSv5KUmU7604TZjR4XiUNLcRYvFoDFYSPXVgNc0IbnL+2uDdF5Dk6NN3SP0z9x83TWfiN3J2USO7whX+Av/698+fBtJeU02wlcbDSPL5kwyozUiL3dFOizngRQQrw2/iGjz/U947GYPrAmxWD45/ioFXZnI57j6GP2K7Rlazf0LftITlLYLYAm524uZexCPRwlNEE365Qh2NNM0hkeNkdoXi4ZQQ4Fd8zsNAdMFDUdWyp0oJmSFSGH8kZI6i9d08TKdzVui1UDfVWNJXYmKdgd3M4NBYncsLL4Y3nLa16ubhZUVGROLo6aCrzePYpluqfnhAxOOqsjNQdOXZBhVKrI5fvOCAHDPr/2Bo9d2aqg0boLERhVpzK7zA4woCLyw4AH51VdRCan0pqaBxsjc/xOs7Jh6eRontFlveV/NLJp+KKs6qmqWIvI3ey327INIbozpz+nfi4vc6X7MgtBklp7fZ00nwKOBXogyUTt0eVCQltsm1rWgyjoemm4aoeD73rQ1+pAa4YnOqG3pJcEGJsYgHst4bqHMjRfQIhi+Q77x/sOS53vhu98vKHcTFtlvn2temL/8iILwPJYZLHY6fpb+rCon6lNN9cSjVvFPB/7id9g3PnTwY+gqy8xvqfAo=
       script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - pipenv run invoke test
         - pipenv run invoke dist
         - pipenv run pip install twine==3.2.0
         - pipenv run twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
 
-        # TODO deploy tags ?
+        # TODO extract scripts to .travis.script.stage.test.sh
+        # TODO deploy tags from a stage to condition (tag is present)
 
 stages:
-  - name: test
-  - name: publish_pypi_test_master
-    if: branch = master
-  - name: publish_pypi_test_develop
-    if: branch = develop
+  - name: master
+    if: repo = thinow/aws-kinesis-consumer
+  - name: develop
+    if: repo = thinow/forked-aws-kinesis-consumer
 
 deploy:
   provider: pypi
