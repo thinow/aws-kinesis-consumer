@@ -2,6 +2,8 @@ from argparse import ArgumentParser
 
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
 
+AWS_KINESIS_CONSUMER_VERSION = "1.0.1"
+
 
 class ConfigurationFactory:
     parser: ArgumentParser
@@ -38,7 +40,7 @@ class ConfigurationFactory:
         self.parser.add_argument(
             '--version',
             action='version',
-            version='1.0.1'
+            version=AWS_KINESIS_CONSUMER_VERSION
         )
 
     def create_configuration(self, arguments: list) -> Configuration:

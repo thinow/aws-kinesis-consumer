@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = "1.0.1"
+AWS_KINESIS_CONSUMER_VERSION = "1.0.1"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -24,7 +24,7 @@ setup(
     author_email="thinow@gmail.com",
     maintainer="Thierry Nowak",
     maintainer_email="thinow@gmail.com",
-    version=VERSION,
+    version=AWS_KINESIS_CONSUMER_VERSION,
     license="MIT",
     url="https://github.com/thinow/aws-kinesis-consumer",
     scripts=["cli/aws-kinesis-consumer"],

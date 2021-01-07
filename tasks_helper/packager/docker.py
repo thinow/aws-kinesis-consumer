@@ -1,6 +1,6 @@
 import invoke
 
-from setup import VERSION
+from aws_kinesis_consumer.configuration.factory import AWS_KINESIS_CONSUMER_VERSION
 from tasks_helper.packager.base import Packager
 
 IMAGE_NAME = 'thinow/aws-kinesis-consumer'
@@ -28,6 +28,6 @@ class DockerPackager(Packager):
 
     def deploy(self, runner: invoke.Runner, destination: str) -> None:
         runner.run(f'docker push {IMAGE_NAME}:beta')
-        for tag in ('latest', VERSION):
+        for tag in ('latest', AWS_KINESIS_CONSUMER_VERSION):
             runner.run(f'docker tag {IMAGE_NAME}:beta {IMAGE_NAME}:{tag}')
             runner.run(f'docker push {IMAGE_NAME}:{tag}')
