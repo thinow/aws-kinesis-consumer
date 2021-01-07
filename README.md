@@ -64,10 +64,11 @@ $ aws-kinesis-consumer --stream-name MyStream
 | Argument | Default | Description |
 | -------- | ------- | ----------- |
 | `--stream-name` _(required)_ | | Name of the AWS Kinesis Stream. |
-| `--iterator-type` | `latest` | Defines how to start consuming records from the stream. Use `latest` to consume the new records only. Or use `trim-horizon` to consume all the records already existing in the stream. |
 | `--endpoint` |  | Custom AWS endpoint url to communicate with the AWS API. Could be used in order to specify a region (e.g. `https://kinesis.us-east-1.amazonaws.com/`). |
-| `--help` | | Shows the help message. |
+| `--iterator-type` | `latest` | Defines how to start consuming records from the stream. Use `latest` to consume the new records only. Or use `trim-horizon` to consume all the records already existing in the stream. |
 |<img width="325"/>|<img width="0"/>|<img width="0"/>|
+| `--help` | | Prints the help message. |
+| `--version` | | Prints the version of the binary. |
 
 ## FAQ
 
