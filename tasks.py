@@ -2,10 +2,12 @@ from invoke import task
 
 from tasks_helper.demo.demo_consumer import DemoConsumer
 from tasks_helper.demo.demo_producer import DemoProducer
+from tasks_helper.packager.docker import DockerPackager
 from tasks_helper.packager.pip import PipPackager
 
 packagers: tuple = (
     PipPackager(),
+    DockerPackager(),
 )
 
 
@@ -19,18 +21,8 @@ def test(c):
 @task
 def build(c):
     for packager in packagers:
-        c.run(f'echo Building {packager.get_name()}')
+        c.run(f'echo "--- Building for {packager.get_name()}"')
         packager.build(c)
-
-
-@task
-def dockerbuild(c):
-    build_folder = 'build-docker'
-    c.run(f'rm -rvf {build_folder}')
-    c.run(f'mkdir -v {build_folder}')
-    for filepath in ['aws_kinesis_consumer', 'Pipfile', 'Pipfile.lock', 'docker/aws-kinesis-consumer/Dockerfile']:
-        c.run(f'cp -Rv {filepath} {build_folder}')
-    c.run(f'docker build -t aws-kinesis-consumer {build_folder}')
 
 
 @task
