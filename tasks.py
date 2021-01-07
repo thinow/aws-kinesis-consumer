@@ -21,14 +21,14 @@ def test(c):
 @task
 def build(c):
     for packager in packagers:
-        c.run(f'echo "--- Building for {packager.get_name()}"')
+        print(f'--- Building for {packager.get_name()}')
         packager.build(c)
 
 
 @task
 def deploy(c, destination):
     for packager in packagers:
-        c.run(f'echo "--- Deploying for {packager.get_name()}"')
+        print(f'--- Deploying for {packager.get_name()}')
         packager.deploy(c, destination)
 
 

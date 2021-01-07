@@ -28,6 +28,7 @@ class DockerPackager(Packager):
 
     def deploy(self, runner: invoke.Runner, destination: str) -> None:
         runner.run(f'docker push {IMAGE_NAME}:beta')
-        for tag in ('latest', AWS_KINESIS_CONSUMER_VERSION):
-            runner.run(f'docker tag {IMAGE_NAME}:beta {IMAGE_NAME}:{tag}')
-            runner.run(f'docker push {IMAGE_NAME}:{tag}')
+        if destination is 'production':
+            for tag in ('latest', AWS_KINESIS_CONSUMER_VERSION):
+                runner.run(f'docker tag {IMAGE_NAME}:beta {IMAGE_NAME}:{tag}')
+                runner.run(f'docker push {IMAGE_NAME}:{tag}')
