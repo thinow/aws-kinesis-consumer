@@ -16,11 +16,14 @@ jobs:
   include:
 
     - stage: master
-      # TODO provide TWINE and DOCKER variables
-      script:
-        - pipenv run invoke dist
-        - pipenv run pip install twine==3.2.0
-        - pipenv run twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
+      env:
+        - DOCKER_USERNAME=thinow
+        # DOCKER_PASSWORD=[secure]
+        - secure: eKN6jWY5oHq1P9xegCwM9vx9CZPHKW7tY7N8XlzzmsZ1I/KyNgH6laZDnXk29fW6H8pSo4GRqfPew5b2t7HKhhWcGHbLxZjzTf/E4i4btODoB7SAsvf1mDg1kTU8NT5+cLJeQPjmD417B8ql/cKDQ3aGUnPqDj90wtGOOnijFev3ViaGo0XhIY1bqcnbvGy5zc8eqJrWmeIcgnfeVIHQLfYNTAigNT2HtTIpZWOb9bNvVB/9QRL8t0MVdBJbRtVbz8yh45lb0eGGQzbJdm6lqMmkk763ILV1MtaFHwfzjYhnnJCmGDOtI0QFX9gmiaQXEUFbm6ogIjq+qVtW+7gw/qKR8aCsAshA8zqOML3ZqxOfEra3YuEzZdCNazajukU2Nz6PuV92Yw/QVnpXFh8rnjq+xL7J7bSwA0og7uBwDKIBlvSroCs5B6nmo5AZ5swqBa4xsc888K3ROZimu0QVh/bEBcZBeEHWtbuwhh52J7c7rpaxSCECgvw/zxrwjbvVfjOYSUJ0d2NKHpsaQNxrkfwP5qhCuD4AiA/zdVQMbrq1dISlQm27k7We9xZcfBeAO8TBcgtpS9C6qJVo1YoJ5M4UkGNJ4RTUtKZIAXKAzkIWIui1GyYuBvPqEWGWUGxdQkOxmwdj96XnzRz5rGRNzRQ6PxU8p+VhHwTQiLOTmqg=
+        - TWINE_USERNAME=__token__
+        # TWINE_PASSWORD=[secure]
+        - secure: BzunqiCNI1Bm/GfK+ucg2XOA14l0yA4oQIkRnMRDOncd+2oxHwTzbi8tjzBZ5P0SD+YvQLmWMsDtfJZRsFq5/NVVyoTvtMWxWTzWcUDrWYS4PyYCv332sKLsj3PakJ2lYXNCGAKjd/WM0tbgwrBfmX9o9wJfKdD/OSUaeudnFdfJn1sxfEC+RGXSmbTSyaLDB50MfTe1Z0x8qNg1elw63snnSWobY73+w7ujx3HCfnzFYxz2D72CLmj7X1VmYckWmzcXzdL5nttNU3uDPWSkFy64EO6P4Wih/AnHxo9mtyDTQ+CiS96J4wtV4pcqbvpinoCOaaGoegyze9ilBrSG+vhHAhnzGWsBBJaWfh/wTVW1hO0m5jE6eEX0BEuT8HOtB2Lso74PIC1ps2gQfM6ZR94qyAYUgNmto8jgxzh+bl0j8ejJhiDqTjo+3SK8SDg/TEzUc9r1XV8kp/ThWwJ6tYJtscYfjXyHeyP/oQnbo/MV2t3ik9oJgsXco57BixSpcchHEf+knE4QNAyVch5h9nMpV7NA+X8DbVQvM/P+WKzDT4BAkeUnpVad06Ayw10f33CE8lmgPiUSaQgqL/xTALPOU/8M1fpZH9OSJEnD5PwvmS9xpwoHXDEVSLW6D2Ux80tVW1/Corg4pxZ+w1EeElCfZ9hctoReisA9wiWzIQ4=
+      script: ./travis/scripts.sh
 
     - stage: develop
       env:
@@ -30,15 +33,9 @@ jobs:
         - TWINE_USERNAME=__token__
         # TWINE_PASSWORD=[secure]
         - secure: EEZOeUOk7WbkhzaMjBZdnabzfUk1Y99uyWixw+Nl66iRKSv5KUmU7604TZjR4XiUNLcRYvFoDFYSPXVgNc0IbnL+2uDdF5Dk6NN3SP0z9x83TWfiN3J2USO7whX+Av/698+fBtJeU02wlcbDSPL5kwyozUiL3dFOizngRQQrw2/iGjz/U947GYPrAmxWD45/ioFXZnI57j6GP2K7Rlazf0LftITlLYLYAm524uZexCPRwlNEE365Qh2NNM0hkeNkdoXi4ZQQ4Fd8zsNAdMFDUdWyp0oJmSFSGH8kZI6i9d08TKdzVui1UDfVWNJXYmKdgd3M4NBYncsLL4Y3nLa16ubhZUVGROLo6aCrzePYpluqfnhAxOOqsjNQdOXZBhVKrI5fvOCAHDPr/2Bo9d2aqg0boLERhVpzK7zA4woCLyw4AH51VdRCan0pqaBxsjc/xOs7Jh6eRontFlveV/NLJp+KKs6qmqWIvI3ey327INIbozpz+nfi4vc6X7MgtBklp7fZ00nwKOBXogyUTt0eVCQltsm1rWgyjoemm4aoeD73rQ1+pAa4YnOqG3pJcEGJsYgHst4bqHMjRfQIhi+Q77x/sOS53vhu98vKHcTFtlvn2temL/8iILwPJYZLHY6fpb+rCon6lNN9cSjVvFPB/7id9g3PnTwY+gqy8xvqfAo=
-      script:
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - pipenv run invoke test
-        - pipenv run invoke dist
-        - pipenv run pip install twine==3.2.0
-        - pipenv run twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
+      script: ./travis/scripts.sh
 
-        # TODO extract scripts to .travis.script.stage.test.sh
-        # TODO deploy tags from a stage to condition (tag is present)
+    # TODO deploy tags from a stage to condition (tag is present)
 
 stages:
   - name: master
