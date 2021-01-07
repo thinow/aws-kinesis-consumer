@@ -1,5 +1,6 @@
 import invoke
 
+from setup import VERSION
 from tasks_helper.packager.base import Packager
 
 IMAGE_NAME = 'thinow/aws-kinesis-consumer'
@@ -23,7 +24,10 @@ class DockerPackager(Packager):
         runner.run(f'mkdir -v {BUILD_FOLDER}')
         for file in REQUIRED_IN_DOCKER_CONTEXT:
             runner.run(f'cp -Rv {file} {BUILD_FOLDER}')
-        runner.run(f'docker build -t {IMAGE_NAME}:latest {BUILD_FOLDER}')
+        runner.run(f'docker build -t {IMAGE_NAME}:beta {BUILD_FOLDER}')
 
     def deploy(self, runner: invoke.Runner, destination: str) -> None:
-        runner.run(f'docker push {IMAGE_NAME}:latest')
+        runner.run(f'docker push {IMAGE_NAME}:beta')
+        for tag in ('latest', VERSION):
+            runner.run(f'docker tag {IMAGE_NAME}:beta {IMAGE_NAME}:{tag}')
+            runner.run(f'docker push {IMAGE_NAME}:{tag}')
