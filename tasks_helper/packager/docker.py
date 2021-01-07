@@ -2,6 +2,8 @@ import invoke
 
 from tasks_helper.packager.base import Packager
 
+IMAGE_NAME = 'thinow/aws-kinesis-consumer'
+
 BUILD_FOLDER = 'build-docker'
 
 REQUIRED_IN_DOCKER_CONTEXT = (
@@ -21,9 +23,7 @@ class DockerPackager(Packager):
         runner.run(f'mkdir -v {BUILD_FOLDER}')
         for file in REQUIRED_IN_DOCKER_CONTEXT:
             runner.run(f'cp -Rv {file} {BUILD_FOLDER}')
-        runner.run(f'docker build -t aws-kinesis-consumer {BUILD_FOLDER}')
+        runner.run(f'docker build -t {IMAGE_NAME}:latest {BUILD_FOLDER}')
 
     def deploy(self, runner: invoke.Runner, destination: str) -> None:
-        # TODO implement docker push
-        runner.run('echo "Not yet implemented!"')
-        pass
+        runner.run(f'docker push {IMAGE_NAME}:latest')
