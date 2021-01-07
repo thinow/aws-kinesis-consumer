@@ -1,3 +1,5 @@
+import os
+
 import invoke
 
 from aws_kinesis_consumer.configuration.factory import AWS_KINESIS_CONSUMER_VERSION
@@ -14,6 +16,8 @@ REQUIRED_IN_DOCKER_CONTEXT = (
     'Pipfile.lock',
 )
 
+DOCKER_HUB_DESCRIPTION = 'Offers the ability to simply look up the records from a AWS Kinesis Data Stream.'
+
 
 class DockerPackager(Packager):
     def get_name(self) -> str:
@@ -29,6 +33,20 @@ class DockerPackager(Packager):
     def deploy(self, runner: invoke.Runner, destination: str) -> None:
         runner.run(f'docker push {IMAGE_NAME}:beta')
         if destination is 'production':
+            DockerPackager.push_doc_to_docker_hub(runner)
             for tag in ('latest', AWS_KINESIS_CONSUMER_VERSION):
                 runner.run(f'docker tag {IMAGE_NAME}:beta {IMAGE_NAME}:{tag}')
                 runner.run(f'docker push {IMAGE_NAME}:{tag}')
+
+    @staticmethod
+    def push_doc_to_docker_hub(runner: invoke.Runner) -> None:
+        runner.run(f'''
+            docker run --rm \
+                -e DOCKERHUB_USERNAME="{os.environ["DOCKER_USERNAME"]}" \
+                -e DOCKERHUB_PASSWORD="{os.environ["DOCKER_PASSWORD"]}" \
+                -e DOCKERHUB_REPO_PREFIX=thinow \
+                -e DOCKERHUB_REPO_NAME=aws-kinesis-consumer \
+                -e SHORT_DESCRIPTION="{DOCKER_HUB_DESCRIPTION}" \
+                -v $PWD/README.md:/data/README.md \
+                sheogorath/readme-to-dockerhub
+        ''')
