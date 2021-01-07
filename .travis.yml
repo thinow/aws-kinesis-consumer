@@ -1,13 +1,23 @@
 language: python
 python: '3.6'
+
 env:
-  # In Travis CI, Pipenv would itself run within a virtual environment. The following forces pipenv to ignore that environment and create its own instead.
-  - PIPENV_IGNORE_VIRTUALENVS=1
+  global:
+    # In Travis CI, Pipenv would itself run within a virtual environment. The following forces pipenv to ignore that environment and create its own instead.
+    - PIPENV_IGNORE_VIRTUALENVS=1
+    - TWINE_USERNAME=__token__
+    # TWINE_PASSWORD=[secure]
+    - secure: EEZOeUOk7WbkhzaMjBZdnabzfUk1Y99uyWixw+Nl66iRKSv5KUmU7604TZjR4XiUNLcRYvFoDFYSPXVgNc0IbnL+2uDdF5Dk6NN3SP0z9x83TWfiN3J2USO7whX+Av/698+fBtJeU02wlcbDSPL5kwyozUiL3dFOizngRQQrw2/iGjz/U947GYPrAmxWD45/ioFXZnI57j6GP2K7Rlazf0LftITlLYLYAm524uZexCPRwlNEE365Qh2NNM0hkeNkdoXi4ZQQ4Fd8zsNAdMFDUdWyp0oJmSFSGH8kZI6i9d08TKdzVui1UDfVWNJXYmKdgd3M4NBYncsLL4Y3nLa16ubhZUVGROLo6aCrzePYpluqfnhAxOOqsjNQdOXZBhVKrI5fvOCAHDPr/2Bo9d2aqg0boLERhVpzK7zA4woCLyw4AH51VdRCan0pqaBxsjc/xOs7Jh6eRontFlveV/NLJp+KKs6qmqWIvI3ey327INIbozpz+nfi4vc6X7MgtBklp7fZ00nwKOBXogyUTt0eVCQltsm1rWgyjoemm4aoeD73rQ1+pAa4YnOqG3pJcEGJsYgHst4bqHMjRfQIhi+Q77x/sOS53vhu98vKHcTFtlvn2temL/8iILwPJYZLHY6fpb+rCon6lNN9cSjVvFPB/7id9g3PnTwY+gqy8xvqfAo=
+
 install:
   - pipenv sync --dev
+
 script:
-  - pipenv run inv test
-  - pipenv run inv dist
+  - pipenv run invoke test
+  - pipenv run invoke dist
+  - pipenv run pip install twine==3.2.0
+  - pipenv run twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
+
 deploy:
   provider: pypi
   username: __token__
