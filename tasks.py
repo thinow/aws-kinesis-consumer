@@ -12,10 +12,22 @@ def test(c):
 
 
 @task
-def dist(c):
+def build(c):
     c.run('rm -rf dist/')
     c.run('pipenv-setup sync')
     c.run('python setup.py sdist bdist_wheel')
+
+
+@task
+def deploy(c, destination):
+    if destination == 'staging':
+        c.run('pip install twine==3.2.0')
+        c.run('twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*')
+    elif destination == 'production':
+        c.run('pip install twine==3.2.0')
+        c.run('twine upload dist/*')
+    else:
+        raise ValueError(f'Unknown argument : {destination}')
 
 
 @task

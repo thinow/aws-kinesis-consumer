@@ -23,7 +23,7 @@ jobs:
         - TWINE_USERNAME=__token__
         # TWINE_PASSWORD=[secure]
         - secure: BzunqiCNI1Bm/GfK+ucg2XOA14l0yA4oQIkRnMRDOncd+2oxHwTzbi8tjzBZ5P0SD+YvQLmWMsDtfJZRsFq5/NVVyoTvtMWxWTzWcUDrWYS4PyYCv332sKLsj3PakJ2lYXNCGAKjd/WM0tbgwrBfmX9o9wJfKdD/OSUaeudnFdfJn1sxfEC+RGXSmbTSyaLDB50MfTe1Z0x8qNg1elw63snnSWobY73+w7ujx3HCfnzFYxz2D72CLmj7X1VmYckWmzcXzdL5nttNU3uDPWSkFy64EO6P4Wih/AnHxo9mtyDTQ+CiS96J4wtV4pcqbvpinoCOaaGoegyze9ilBrSG+vhHAhnzGWsBBJaWfh/wTVW1hO0m5jE6eEX0BEuT8HOtB2Lso74PIC1ps2gQfM6ZR94qyAYUgNmto8jgxzh+bl0j8ejJhiDqTjo+3SK8SDg/TEzUc9r1XV8kp/ThWwJ6tYJtscYfjXyHeyP/oQnbo/MV2t3ik9oJgsXco57BixSpcchHEf+knE4QNAyVch5h9nMpV7NA+X8DbVQvM/P+WKzDT4BAkeUnpVad06Ayw10f33CE8lmgPiUSaQgqL/xTALPOU/8M1fpZH9OSJEnD5PwvmS9xpwoHXDEVSLW6D2Ux80tVW1/Corg4pxZ+w1EeElCfZ9hctoReisA9wiWzIQ4=
-      script: ./travis/scripts.sh
+      script: ./travis/scripts.sh staging
 
     - stage: develop
       env:
@@ -33,20 +33,22 @@ jobs:
         - TWINE_USERNAME=__token__
         # TWINE_PASSWORD=[secure]
         - secure: EEZOeUOk7WbkhzaMjBZdnabzfUk1Y99uyWixw+Nl66iRKSv5KUmU7604TZjR4XiUNLcRYvFoDFYSPXVgNc0IbnL+2uDdF5Dk6NN3SP0z9x83TWfiN3J2USO7whX+Av/698+fBtJeU02wlcbDSPL5kwyozUiL3dFOizngRQQrw2/iGjz/U947GYPrAmxWD45/ioFXZnI57j6GP2K7Rlazf0LftITlLYLYAm524uZexCPRwlNEE365Qh2NNM0hkeNkdoXi4ZQQ4Fd8zsNAdMFDUdWyp0oJmSFSGH8kZI6i9d08TKdzVui1UDfVWNJXYmKdgd3M4NBYncsLL4Y3nLa16ubhZUVGROLo6aCrzePYpluqfnhAxOOqsjNQdOXZBhVKrI5fvOCAHDPr/2Bo9d2aqg0boLERhVpzK7zA4woCLyw4AH51VdRCan0pqaBxsjc/xOs7Jh6eRontFlveV/NLJp+KKs6qmqWIvI3ey327INIbozpz+nfi4vc6X7MgtBklp7fZ00nwKOBXogyUTt0eVCQltsm1rWgyjoemm4aoeD73rQ1+pAa4YnOqG3pJcEGJsYgHst4bqHMjRfQIhi+Q77x/sOS53vhu98vKHcTFtlvn2temL/8iILwPJYZLHY6fpb+rCon6lNN9cSjVvFPB/7id9g3PnTwY+gqy8xvqfAo=
-      script: ./travis/scripts.sh
+      script: ./travis/scripts.sh staging
 
-    # TODO deploy tags from a stage to condition (tag is present)
+    - stage: deploy production
+      env:
+        - DOCKER_USERNAME=thinow
+        # DOCKER_PASSWORD=[secure]
+        - secure: eKN6jWY5oHq1P9xegCwM9vx9CZPHKW7tY7N8XlzzmsZ1I/KyNgH6laZDnXk29fW6H8pSo4GRqfPew5b2t7HKhhWcGHbLxZjzTf/E4i4btODoB7SAsvf1mDg1kTU8NT5+cLJeQPjmD417B8ql/cKDQ3aGUnPqDj90wtGOOnijFev3ViaGo0XhIY1bqcnbvGy5zc8eqJrWmeIcgnfeVIHQLfYNTAigNT2HtTIpZWOb9bNvVB/9QRL8t0MVdBJbRtVbz8yh45lb0eGGQzbJdm6lqMmkk763ILV1MtaFHwfzjYhnnJCmGDOtI0QFX9gmiaQXEUFbm6ogIjq+qVtW+7gw/qKR8aCsAshA8zqOML3ZqxOfEra3YuEzZdCNazajukU2Nz6PuV92Yw/QVnpXFh8rnjq+xL7J7bSwA0og7uBwDKIBlvSroCs5B6nmo5AZ5swqBa4xsc888K3ROZimu0QVh/bEBcZBeEHWtbuwhh52J7c7rpaxSCECgvw/zxrwjbvVfjOYSUJ0d2NKHpsaQNxrkfwP5qhCuD4AiA/zdVQMbrq1dISlQm27k7We9xZcfBeAO8TBcgtpS9C6qJVo1YoJ5M4UkGNJ4RTUtKZIAXKAzkIWIui1GyYuBvPqEWGWUGxdQkOxmwdj96XnzRz5rGRNzRQ6PxU8p+VhHwTQiLOTmqg=
+        - TWINE_USERNAME=__token__
+        # TWINE_PASSWORD=[secure]
+        - secure: dWQrdn7JZlP8kJUVrP1j8QOl78OdzqJpasxC8lfGvG0P9J/EIXUnaY3PAEFC7M51M3FAfSTA4KKihUTaOR/YtxYpszvGJyRwkEafowY/RUgTew4fX6yYk5e7CU7m4QxTWzGWV+jHc6gebEzYsMpVJRT4+ASqKHfguDPCYrbFzFIfJbbX+1Il+WKfy2t/lRWYSVJuk+EsClATOfbN2KRmO3f20fY277Yp1VezxwU34bz56GCN7GRZjNzs3Oi0suVG/wlRxUXv1r4PTbgAbphNkORgvhoWNU18Zfyd84zeM/2a7qvs6ASssINnkPFN2rdSIJKtBDGn+6lhdI7i7n7UxeoBI1xGR0qMwedYyu7khFPNzisE67sxboyuF6a9rgU8faDYbB/FnApg6NIkNdT4zW8zfsjgmuNk2J4fPK8OVMgVmUp/F6n86qcTRP99pveAZy8sbyvQ1sbb6rMSBw4lKAjciHH5RWp8xWG/rG5Xd1jZuNw0ghVW5jsPvd6TaCqYRpUZzBfbAuldDqotkQjkHLV7ciDSsKzlT+o853aPEdA+fdYd03cFlZ9UCb9FK1qp/5f3ry9w9vy4YoJEg3Ayz393P5JT5TH81J6+t7EBTCtQUi7gM27n55XUPbF7/UF+s97a6oCO+oWcNHjfDRKwrM26xfmO/gJOPicFyk/CrSQ=
+      script: ./travis/scripts.sh production
 
 stages:
   - name: master
     if: repo = thinow/aws-kinesis-consumer
   - name: develop
     if: repo = thinow/forked-aws-kinesis-consumer
-
-deploy:
-  provider: pypi
-  username: __token__
-  password:
-    secure: V+0p+jWTFoIGuFw6LDM7ege9pK4DKZHqKQXbj8/bFdF74aKgbmix4mOROzBw2tWUj6udvdZ08t0SIS4TSM69xrVdtjPbOwfKtc0u3M/K8a4CS5W3ny55rihw7Ms5iSHobFR/8y5fdqj8I9bvEQvwjuwE6OcZmAizXHVRWWfMq+MlwCKTzfCtJXJvbLueBinXdlweqY4PvfiZL7bBIFvyLKGDWwuU7rBgzKQUJmDOzBDPqXXjj4O2OqdG9ixYqJ88dWXR5OmfWC+ulSQmw5fj0+73zqdZW35U5w8a+qlFK1WxFhCuCA8bJrlMMPcz11zBkX2dB2hHTtoVZvtx5cj4qW3XjcYwqjHlWURMrFvi4Pt2id7EhkwDUwcaMMTKh+VYUF29/XJ+23zxaQ+0FfuVhX8XNzJvm9Cj1t5ITDwaWOX2YgDGEGE7uVi54ktuJQszESZ3T3LeGYL/5it1YtvQFiGllcTENODLIcGU/V25FmFdOF8tvtz7AcemrJQqotIo81vzI8Gx1AdRaFIZIfoJW1SGQtxHzU26kq4NrvQDRRAwrpccu+gwra+Zr77VOfiKgXirRPRmUuemEK+SI6Afwr7hzJAEFAmlGiv4MFtVULA+UBBaclVTVoc/5WbJBB0abxpSslZSmPg7FFj0139/20wUNjvefNHYDKeunFG482c=
-  on:
-    tags: true
+  - name: deploy production
+    if: tag IS present
