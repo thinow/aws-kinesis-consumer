@@ -16,7 +16,7 @@ REQUIRED_IN_DOCKER_CONTEXT = (
     'Pipfile.lock',
 )
 
-DOCKER_HUB_DESCRIPTION = 'Offers the ability to simply look up the records from a AWS Kinesis Data Stream.'
+DOCKER_HUB_DESCRIPTION = 'Consume an AWS Kinesis Data Stream to look over the records from a terminal.'
 
 
 class DockerPackager(Packager):
