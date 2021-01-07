@@ -2,6 +2,11 @@ from invoke import task
 
 from tasks_helper.demo.demo_consumer import DemoConsumer
 from tasks_helper.demo.demo_producer import DemoProducer
+from tasks_helper.packager.pip import PipPackager
+
+packagers: tuple = (
+    PipPackager(),
+)
 
 
 @task
@@ -13,14 +18,14 @@ def test(c):
 
 @task
 def build(c):
-    c.run('rm -rf dist/')
-    c.run('pipenv-setup sync')
-    c.run('python setup.py sdist bdist_wheel')
+    for packager in packagers:
+        c.run(f'echo Building {packager.get_name()}')
+        packager.build(c)
 
 
 @task
 def dockerbuild(c):
-    build_folder = 'docker-build'
+    build_folder = 'build-docker'
     c.run(f'rm -rvf {build_folder}')
     c.run(f'mkdir -v {build_folder}')
     for filepath in ['aws_kinesis_consumer', 'Pipfile', 'Pipfile.lock', 'docker/aws-kinesis-consumer/Dockerfile']:
