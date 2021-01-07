@@ -9,7 +9,7 @@ Consume an [AWS Kinesis Data Stream](https://aws.amazon.com/kinesis/data-streams
 
 ## Demo
 
-```shell script
+```shell
 $ aws-kinesis-consumer --stream-name MyStream
 
 <shard_id=shardId-000000000000, records=1>
@@ -19,45 +19,42 @@ Record-002
 Record-003
 ```
 
-## Install
-
-[Python 3.6+](https://www.python.org/downloads/) needs to be already installed, then :
-
-```shell script
-pip install aws-kinesis-consumer
-```
-
 ## Usage
 
-### Connect to AWS
+### Pre-requirement
 
-Just as the [AWS CLI](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/kinesis/index.html),
-``aws-kinesis-consumer`` will use the AWS credentials from the [AWS environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html#envvars-list).
-
-**Recommended:** When working from a local machine, [`aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-methods)
-can be executed once to set the environment variables :
+Connect to AWS and set
+the [default AWS environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html#envvars-list)
+.
 
 ```shell script
-# execute aws configure once...
-$ aws configure
-AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
-AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-Default region name [None]: eu-central-1
-
-# ...then use aws-kinesis-consumer
-$ aws-kinesis-consumer --stream-name MyStream
+export AWS_DEFAULT_REGION=eu-central-1
+export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 ```
 
-Alternatively, you can manually set AWS environment variables :
+Alternatively, [aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-methods)
+can help to set the environment variables.
 
-```shell script
-# set the AWS environment variables...
-$ export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-$ export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-$ export AWS_DEFAULT_REGION=eu-central-1
+### Use with Python
 
-# ...then use aws-kinesis-consumer
-$ aws-kinesis-consumer --stream-name MyStream
+```shell
+# install
+pip install aws-kinesis-consumer
+
+# consume a stream
+aws-kinesis-consumer --stream-name MyStream
+```
+
+### Use with Docker
+
+```shell
+docker run \
+  -e AWS_DEFAULT_REGION=eu-central-1 \
+  -e AWS_ACCESS_KEY_ID \
+  -e AWS_SECRET_ACCESS_KEY \
+  -e AWS_SESSION_TOKEN \
+  thinow/aws-kinesis-consumer --stream-name MyStream
 ```
 
 ### Arguments
@@ -86,7 +83,7 @@ Therefore there is no need for an extra script.
 
 The environment variable `AWS_DEFAULT_REGION` can be used to specify any AWS region.
 
-```shell script
+```shell
 AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyGermanStream
 ```
 
@@ -95,7 +92,7 @@ AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyGermanStrea
 `aws-kinesis-consumer` can be piped with other command such as [grep](https://www.man7.org/linux/man-pages/man1/grep.1.html),
 or even [jq](https://stedolan.github.io/jq/) to filter json records.
 
-```shell script
+```shell
 # all the records
 $ aws-kinesis-consumer --stream-name MyStream
 {"name":"foo", "status":"ok"}
