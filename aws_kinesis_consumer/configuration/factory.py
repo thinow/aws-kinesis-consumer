@@ -1,3 +1,4 @@
+import sys
 from argparse import ArgumentParser
 
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
@@ -33,6 +34,12 @@ class ConfigurationFactory:
             "trim-horizon" gets all the records from the beginning.
             (default: %(default)s)
             ''',
+        )
+
+        self.parser.add_argument(
+            '--version',
+            action='version',
+            version='1.0.1'
         )
 
     def create_configuration(self, arguments: list) -> Configuration:

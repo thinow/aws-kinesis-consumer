@@ -1,4 +1,5 @@
 import pytest
+import re
 
 from aws_kinesis_consumer.configuration.configuration import IteratorType
 from aws_kinesis_consumer.configuration.factory import ConfigurationFactory
@@ -8,6 +9,14 @@ def test_help(capsys, snapshot):
     with pytest.raises(SystemExit):
         parse('--help')
     snapshot.assert_match(capsys.readouterr().out, 'ArgumentParserHelpOutput')
+
+
+def test_version(capsys):
+    with pytest.raises(SystemExit):
+        parse('--version')
+
+    version_pattern = re.compile(r'\d+\.\d+\.\d+')
+    assert version_pattern.match(capsys.readouterr().out), "Output should be a valid version"
 
 
 def test_stream_name():
