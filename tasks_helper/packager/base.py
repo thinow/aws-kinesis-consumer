@@ -11,3 +11,7 @@ class Packager(ABC):
     @abstractmethod
     def build(self, runner: invoke.Runner) -> None:
         pass
+
+    @abstractmethod
+    def deploy(self, runner: invoke.Runner, destination: str) -> None:
+        pass

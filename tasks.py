@@ -27,14 +27,9 @@ def build(c):
 
 @task
 def deploy(c, destination):
-    if destination == 'staging':
-        c.run('pip install twine==3.2.0')
-        c.run('twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*')
-    elif destination == 'production':
-        c.run('pip install twine==3.2.0')
-        c.run('twine upload dist/*')
-    else:
-        raise ValueError(f'Unknown argument : {destination}')
+    for packager in packagers:
+        c.run(f'echo "--- Deploying for {packager.get_name()}"')
+        packager.deploy(c, destination)
 
 
 @task
