@@ -105,7 +105,7 @@ $ aws-kinesis-consumer --stream-name MyStream | grep "ba"
 {"name":"baz", "status":"error"}
 
 # records where the json property "status" has the value "error"
-$ aws-kinesis-consumer --stream-name MyStream | jq 'contains({status:"error"})'
+$ aws-kinesis-consumer --stream-name MyStream | jq 'select(.status == "error")'
 {"name":"baz", "status":"error"}
 ```
 
