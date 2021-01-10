@@ -31,7 +31,7 @@ class DockerPackager(Packager):
 
     def deploy(self, runner: invoke.Runner, destination: str) -> None:
         runner.run(f'docker push {IMAGE_NAME}:beta')
-        if destination is 'production':
+        if destination == 'production':
             DockerPackager.push_doc_to_docker_hub(runner)
             for tag in ('latest', AWS_KINESIS_CONSUMER_VERSION):
                 runner.run(f'docker tag {IMAGE_NAME}:beta {IMAGE_NAME}:{tag}')
