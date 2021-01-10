@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
 
-AWS_KINESIS_CONSUMER_VERSION = "1.0.1"
+AWS_KINESIS_CONSUMER_VERSION = "1.1.0"
 
 
 class ConfigurationFactory:
