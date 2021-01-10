@@ -137,6 +137,11 @@ The following policy is an example which can be applied to an AWS user or an AWS
 }
 ```
 
+## Changelog
+
+[See all the changes per release](CHANGELOG.md).
+
 ## Special thanks
 
-* Thanks to the contributors of the [kinesalite](https://github.com/mhart/kinesalite) project which make test and development of this project extremely easy and reliable!
+* Thanks to the contributors of the [kinesalite](https://github.com/mhart/kinesalite) project which make test and
+  development of this project extremely easy and reliable!
