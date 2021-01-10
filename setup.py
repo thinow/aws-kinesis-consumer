@@ -6,16 +6,6 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    install_requires=[
-        "boto3==1.16.39",
-        "boto3-type-annotations==0.3.1",
-        "botocore==1.19.39",
-        "jmespath==0.10.0; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-        "python-dateutil==2.8.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-        "s3transfer==0.3.3",
-        "six==1.15.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-        "urllib3==1.26.2; python_version != '3.4'",
-    ],
     name="aws-kinesis-consumer",
     description="Consume an AWS Kinesis Data Stream to look over the records from a terminal",
     long_description=long_description,
