@@ -12,8 +12,6 @@ BUILD_FOLDER = 'build-docker'
 REQUIRED_IN_DOCKER_CONTEXT = (
     'docker/aws-kinesis-consumer/Dockerfile',
     'aws_kinesis_consumer',
-    'Pipfile',
-    'Pipfile.lock',
 )
 
 DOCKER_HUB_DESCRIPTION = 'Consume an AWS Kinesis Data Stream to look over the records from a terminal.'
@@ -28,6 +26,7 @@ class DockerPackager(Packager):
         runner.run(f'mkdir -v {BUILD_FOLDER}')
         for file in REQUIRED_IN_DOCKER_CONTEXT:
             runner.run(f'cp -Rv {file} {BUILD_FOLDER}')
+        runner.run(f'pipenv lock --requirements | grep -v \'#\' > {BUILD_FOLDER}/requirements.txt')
         runner.run(f'docker build -t {IMAGE_NAME}:beta {BUILD_FOLDER}')
 
     def deploy(self, runner: invoke.Runner, destination: str) -> None:
