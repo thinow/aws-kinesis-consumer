@@ -1,4 +1,4 @@
-# 1.1.0 (2021-01-10)
+# 1.1.1 (2021-01-10)
 
 1. **Added feature** : The command `aws-kinesis-consumer` is usable from a docker container
    (see [Docker image thinow/aws-kinesis-consumer](https://hub.docker.com/r/thinow/aws-kinesis-consumer))

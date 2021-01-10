@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-AWS_KINESIS_CONSUMER_VERSION = "1.1.0"
+AWS_KINESIS_CONSUMER_VERSION = "1.1.1"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
