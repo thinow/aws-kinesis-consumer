@@ -139,7 +139,7 @@ The following policy is an example which can be applied to an AWS user or an AWS
 
 ## Changelog
 
-[See all the changes per release](CHANGELOG.md).
+[See all the changes per release](https://github.com/thinow/aws-kinesis-consumer/blob/master/CHANGELOG.md).
 
 ## Special thanks
 
