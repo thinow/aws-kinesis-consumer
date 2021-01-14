@@ -1,10 +1,7 @@
-from botocore.exceptions import NoRegionError
+from botocore.exceptions import NoRegionError, NoCredentialsError, PartialCredentialsError
 from pytest import CaptureFixture, raises
 
 from aws_kinesis_consumer import ErrorHandler
-
-
-# TODO test AWS credentials error (not found, session expired, invalid key id, secret, session token)
 
 
 def test_user_interrupting_program(capsys: CaptureFixture):
@@ -62,6 +59,46 @@ def test_missing_aws_region(capsys: CaptureFixture):
             "ERROR: AWS region has not been found.",
             "Please pass the region using the environment variable AWS_DEFAULT_REGION. Example:",
             "$ AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyStream",
+        ],
+    }
+
+
+def test_partially_missing_aws_credentials(capsys: CaptureFixture):
+    # when
+    with raises(SystemExit) as raised_error:
+        ErrorHandler.handle(PartialCredentialsError(
+            provider='provider', cred_var='cred_var'
+        ))
+
+    # then
+    assert program_exists(raised_error, expected_code=1)
+    assert extract_output(capsys) == {
+        'stdout': [],
+        'stderr': [
+            "ERROR: AWS credentials have not been found.",
+            "Please pass the credentials using the following environment variables :",
+            "AWS_ACCESS_KEY_ID",
+            "AWS_SECRET_ACCESS_KEY",
+            "AWS_SESSION_TOKEN (optional)",
+        ],
+    }
+
+
+def test_missing_aws_credentials(capsys: CaptureFixture):
+    # when
+    with raises(SystemExit) as raised_error:
+        ErrorHandler.handle(NoCredentialsError())
+
+    # then
+    assert program_exists(raised_error, expected_code=1)
+    assert extract_output(capsys) == {
+        'stdout': [],
+        'stderr': [
+            "ERROR: AWS credentials have not been found.",
+            "Please pass the credentials using the following environment variables :",
+            "AWS_ACCESS_KEY_ID",
+            "AWS_SECRET_ACCESS_KEY",
+            "AWS_SESSION_TOKEN (optional)",
         ],
     }
 
