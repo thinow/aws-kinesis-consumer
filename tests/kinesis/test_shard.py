@@ -1,5 +1,5 @@
 import time
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, ANY
 
 from _pytest.capture import CaptureFixture
 
@@ -44,7 +44,10 @@ def test_print_records(capsys: CaptureFixture):
     shard.print_records()
 
     # then
-    kinesis.get_records.assert_called_with(ShardIterator=SHARD_ITERATOR)
+    kinesis.get_records.assert_called_with(
+        ShardIterator=SHARD_ITERATOR,
+        Limit=ANY
+    )
 
     output = capsys.readouterr()
     assert output.err.splitlines() == [
@@ -56,8 +59,24 @@ def test_print_records(capsys: CaptureFixture):
     ]
 
 
+def test_limit_number_of_records_based_on_configuration():
+    # given
+    shard, kinesis = create_shard()
+
+    # when
+    shard.prepare()
+    shard.print_records()
+
+    # then
+    kinesis.get_records.assert_called_with(
+        ShardIterator=ANY,
+        Limit=shard.configuration.max_records_per_request
+    )
+
+
+# For some reason, the test is passing only if monkeypatch is the second argument
 @patch('time.sleep', return_value=None)
-def test_print_records_and_delay(capsys: CaptureFixture, monkeypatch):
+def test_print_records_and_delay(_, monkeypatch):
     # given
     state = {
         'has_mocked_sleep_been_called': False,
@@ -85,8 +104,6 @@ def test_print_records_when_no_records(capsys: CaptureFixture):
     # given
     shard, kinesis = create_shard()
 
-    kinesis.get_records.return_value = {'Records': []}
-
     # when
     shard.prepare()
     shard.print_records()
@@ -109,7 +126,10 @@ def test_print_records_use_next_shard_iterator():
         shard.print_records()
 
     # then
-    kinesis.get_records.assert_called_with(ShardIterator='NEXT-SHARD-ITERATOR')
+    kinesis.get_records.assert_called_with(
+        ShardIterator='NEXT-SHARD-ITERATOR',
+        Limit=ANY,
+    )
 
 
 def test_print_records_when_next_shard_iterator_is_none(capsys: CaptureFixture):
@@ -147,6 +167,7 @@ def test_print_records_on_error(capsys: CaptureFixture):
 def create_shard():
     kinesis = Mock()
     kinesis.get_shard_iterator.return_value = {'ShardIterator': SHARD_ITERATOR}
+    kinesis.get_records.return_value = {'Records': []}
 
     configuration = Configuration(STREAM_NAME, ITERATOR_TYPE, None, DELAY_IN_MILS)
     shard = Shard(SHARD_ID, configuration, kinesis)

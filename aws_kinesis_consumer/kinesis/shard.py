@@ -30,7 +30,10 @@ class Shard:
             return
 
         try:
-            response = self.kinesis.get_records(ShardIterator=self.next_shard_iterator)
+            response = self.kinesis.get_records(
+                ShardIterator=self.next_shard_iterator,
+                Limit=self.configuration.max_records_per_request,
+            )
 
             records = response.get('Records')
             print(f'<shard_id={self.shard_id}, records={len(records)}>', file=sys.stderr, flush=True)
@@ -41,7 +44,7 @@ class Shard:
             self.next_shard_iterator = response.get('NextShardIterator')
 
         except Exception as error:
-            print(f'<error, shard_id={self.shard_id}, message={error}>', file=sys.stderr, flush=True)
+            print(f'<error, shard_id={self.shard_id}, message={repr(error)}>', file=sys.stderr, flush=True)
 
         finally:
             # delay recommended by AWS, see https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html
