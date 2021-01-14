@@ -1,6 +1,7 @@
 import sys
 
 from aws_kinesis_consumer.application.context import Context
+from aws_kinesis_consumer.error.handler import ErrorHandler
 from aws_kinesis_consumer.kinesis.stream import Stream
 
 
@@ -19,5 +20,5 @@ def main():
         while True:
             stream.print_records()
 
-    except KeyboardInterrupt:
-        pass
+    except Exception as error:
+        ErrorHandler.handle(error)
