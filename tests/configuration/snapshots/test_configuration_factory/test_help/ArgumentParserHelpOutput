@@ -1,19 +1,23 @@
 usage: aws-kinesis-consumer --stream-name STREAM-NAME
 
-AWS Kinesis consumer CLI. Consume records using the stream name, not the
-shards ids.
+Consume an AWS Kinesis Data Stream to look over the records from a terminal.
+See https://aws.amazon.com/kinesis/data-streams/
 
 optional arguments:
   -h, --help            show this help message and exit
-  --endpoint ENDPOINT   URL of the AWS Kinesis Data Stream endpoint
+  --endpoint ENDPOINT   define an URL of the AWS Kinesis Data Stream endpoint
+                        different from the default AWS endpoint (e.g.
+                        https://kinesis.us-east-1.amazonaws.com/)
   --iterator-type {latest,trim-horizon}
-                        Shard iterator type which defines the shard position
-                        from which to start reading data records sequentially.
-                        "latest" gets the new records only. "trim-horizon"
-                        gets all the records from the beginning. (default:
-                        latest)
+                        define the position in the shard from where to start
+                        reading data records. "latest" to start from the
+                        latest records (e.g. the freshly produced records
+                        only). "trim-horizon" to start from the earliest
+                        records (e.g. all records existing in the shards, then
+                        the freshly produced records). (default: latest)
   --version             show program's version number and exit
 
 required named arguments:
   --stream-name STREAM_NAME
-                        Name of the Kinesis Data Stream
+                        define the name of the Kinesis Data Stream which will
+                        be consumed

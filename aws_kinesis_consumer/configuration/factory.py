@@ -12,27 +12,34 @@ class ConfigurationFactory:
         self.parser = ArgumentParser(
             prog='aws-kinesis-consumer',
             usage='aws-kinesis-consumer --stream-name STREAM-NAME',
-            description='AWS Kinesis consumer CLI. Consume records using the stream name, not the shards ids.',
+            description='''
+                Consume an AWS Kinesis Data Stream to look over the records from a terminal.
+                See https://aws.amazon.com/kinesis/data-streams/
+            ''',
         )
 
         required_arguments = self.parser.add_argument_group('required named arguments')
         required_arguments.add_argument(
             '--stream-name', type=str, required=True,
-            help='Name of the Kinesis Data Stream',
+            help='define the name of the Kinesis Data Stream which will be consumed',
         )
 
         self.parser.add_argument(
             '--endpoint', type=str,
-            help='URL of the AWS Kinesis Data Stream endpoint'
+            help='''
+                define an URL of the AWS Kinesis Data Stream endpoint different from the default AWS endpoint
+                (e.g. https://kinesis.us-east-1.amazonaws.com/)
+            '''
         )
 
         self.parser.add_argument(
             '--iterator-type', type=str, default=IteratorType.LATEST.value.argument,
             choices=[t.value.argument for t in IteratorType],
             help='''
-            Shard iterator type which defines the shard position from which to start reading data records sequentially.
-            "latest" gets the new records only.
-            "trim-horizon" gets all the records from the beginning.
+            define the position in the shard from where to start reading data records.
+            "latest" to start from the latest records (e.g. the freshly produced records only).
+            "trim-horizon" to start from the earliest records (e.g. all records existing in the shards, then the freshly
+            produced records).
             (default: %(default)s)
             ''',
         )
