@@ -1,7 +1,7 @@
 class ErrorHandler:
 
     @classmethod
-    def handle(cls, error: Exception) -> None:
+    def handle(cls, error: BaseException) -> None:
         # User intentionally interrupts the program. Ignore the exception and exit.
         if isinstance(error, KeyboardInterrupt):
             pass

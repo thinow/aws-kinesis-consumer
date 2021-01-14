@@ -20,5 +20,5 @@ def main():
         while True:
             stream.print_records()
 
-    except Exception as error:
+    except BaseException as error:
         ErrorHandler.handle(error)
