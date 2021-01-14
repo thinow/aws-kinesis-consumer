@@ -1,18 +1,32 @@
 from botocore.exceptions import NoRegionError
 from pytest import CaptureFixture, raises
 
-# TODO test bypass system exit (e.g. unknown argument)
-# TODO test AWS credentials error (not found, session expired, invalid key id, secret, session token)
-# TODO test successful --help
-# TODO test erroneous --help
 from aws_kinesis_consumer import ErrorHandler
+
+
+# TODO test AWS credentials error (not found, session expired, invalid key id, secret, session token)
 
 
 def test_user_interrupting_program(capsys: CaptureFixture):
     # when
-    ErrorHandler.handle(KeyboardInterrupt())
+    with raises(SystemExit) as raised_error:
+        ErrorHandler.handle(KeyboardInterrupt())
 
     # then
+    assert program_exists(raised_error, expected_code=0)
+    assert extract_output(capsys) == {
+        'stdout': [],
+        'stderr': [],
+    }
+
+
+def test_bypass_system_exit(capsys: CaptureFixture):
+    # when
+    with raises(SystemExit) as raised_error:
+        ErrorHandler.handle(SystemExit(123))
+
+    # then
+    assert program_exists(raised_error, expected_code=123)
     assert extract_output(capsys) == {
         'stdout': [],
         'stderr': [],
@@ -25,7 +39,7 @@ def test_unexpected_error(capsys: CaptureFixture):
         ErrorHandler.handle(RuntimeError('Unexpected error'))
 
     # then
-    assert is_exit_program_error(raised_error)
+    assert program_exists(raised_error, expected_code=1)
     assert extract_output(capsys) == {
         'stdout': [],
         'stderr': [
@@ -41,7 +55,7 @@ def test_missing_aws_region(capsys: CaptureFixture):
         ErrorHandler.handle(NoRegionError())
 
     # then
-    assert is_exit_program_error(raised_error)
+    assert program_exists(raised_error, expected_code=1)
     assert extract_output(capsys) == {
         'stdout': [],
         'stderr': [
@@ -52,9 +66,9 @@ def test_missing_aws_region(capsys: CaptureFixture):
     }
 
 
-def is_exit_program_error(exception_info) -> bool:
+def program_exists(exception_info, expected_code) -> bool:
     exception = exception_info.value
-    return isinstance(exception, SystemExit) and exception.code == 1
+    return isinstance(exception, SystemExit) and exception.code == expected_code
 
 
 def extract_output(capsys: CaptureFixture):

@@ -9,13 +9,19 @@ class ErrorHandler:
     def handle(cls, error: BaseException) -> None:
         # User intentionally interrupts the program. Ignore the exception and exit.
         if isinstance(error, KeyboardInterrupt):
-            pass
+            raise SystemExit(0)
+        elif isinstance(error, SystemExit):
+            raise SystemExit(error.code)
         elif isinstance(error, NoRegionError):
-            print('ERROR: AWS region has not been found.', file=sys.stderr)
-            print('Please pass the region using the environment variable AWS_DEFAULT_REGION. Example:', file=sys.stderr)
-            print('$ AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyStream', file=sys.stderr)
-            sys.exit(1)
+            cls.print('ERROR: AWS region has not been found.')
+            cls.print('Please pass the region using the environment variable AWS_DEFAULT_REGION. Example:')
+            cls.print('$ AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyStream')
+            raise SystemExit(1)
         else:
-            print(f'ERROR: the program stopped due to the following issue.', file=sys.stderr)
-            print(repr(error), file=sys.stderr)
-            sys.exit(1)
+            cls.print(f'ERROR: the program stopped due to the following issue.')
+            cls.print(repr(error))
+            raise SystemExit(1)
+
+    @classmethod
+    def print(cls, text):
+        print(text, file=sys.stderr)
