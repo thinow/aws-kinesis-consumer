@@ -15,6 +15,9 @@ optional arguments:
                         only). "trim-horizon" to start from the earliest
                         records (e.g. all records existing in the shards, then
                         the freshly produced records). (default: latest)
+  --max-records-per-request MAX_RECORDS_PER_REQUEST
+                        limit the maximum number of records per GetRecords
+                        request. (default: 10)
   --version             show program's version number and exit
 
 required named arguments:

@@ -1,5 +1,6 @@
-import pytest
 import re
+
+import pytest
 
 from aws_kinesis_consumer.configuration.configuration import IteratorType
 from aws_kinesis_consumer.configuration.factory import ConfigurationFactory
@@ -28,6 +29,23 @@ def test_stream_name_is_required():
     with pytest.raises(SystemExit) as error:
         parse('')
     assert str(error.value) == '2'
+
+
+def test_max_records():
+    configuration = parse('--stream-name STREAM --max-records-per-request 123')
+    assert configuration.max_records_per_request == 123
+
+
+def test_max_records_defaults_to_expected_value():
+    configuration = parse('--stream-name STREAM')
+    assert configuration.max_records_per_request is 10
+
+
+def test_max_records_must_be_number(capsys, snapshot):
+    with pytest.raises(SystemExit):
+        parse('--stream-name STREAM --max-records-per-request NOT_A_NUMBER')
+
+    snapshot.assert_match(capsys.readouterr().err, 'ArgumentParserMaxRecordsMustBeNumber')
 
 
 def test_endpoint():

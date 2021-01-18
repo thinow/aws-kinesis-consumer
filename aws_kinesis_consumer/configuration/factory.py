@@ -45,6 +45,14 @@ class ConfigurationFactory:
         )
 
         self.parser.add_argument(
+            '--max-records-per-request', type=int, default=10,
+            help='''
+            limit the maximum number of records per GetRecords request.
+            (default: %(default)s)
+            ''',
+        )
+
+        self.parser.add_argument(
             '--version',
             action='version',
             version=AWS_KINESIS_CONSUMER_VERSION
@@ -58,7 +66,7 @@ class ConfigurationFactory:
             iterator_type=self.get_iterator_type(parsed.iterator_type),
             # delay recommended by AWS, see https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html
             delay_in_ms=1_000,
-            max_records_per_request=10,  # TODO pick up from arguments
+            max_records_per_request=parsed.max_records_per_request,
         )
 
     @staticmethod
