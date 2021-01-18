@@ -64,6 +64,7 @@ docker run \
 | `--stream-name` _(required)_ | | Name of the AWS Kinesis Stream. |
 | `--endpoint` |  | Custom AWS endpoint url to communicate with the AWS API. Could be used in order to specify a region (e.g. `https://kinesis.us-east-1.amazonaws.com/`). |
 | `--iterator-type` | `latest` | Defines how to start consuming records from the stream. Use `latest` to consume the new records only. Or use `trim-horizon` to consume all the records already existing in the stream. |
+| `--max-records-per-request` | `10` | Defines the maximum number of records per request. |
 |<img width="325"/>|<img width="0"/>|<img width="0"/>|
 | `--help` | | Prints the help message. |
 | `--version` | | Prints the version of the binary. |
