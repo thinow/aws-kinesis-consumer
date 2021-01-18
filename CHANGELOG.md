@@ -1,3 +1,13 @@
+# 1.2.0 (2021-01-18)
+
+1. **Added feature** : all arguments can be defined with short names. Affects `-s / --stream-name`, `-e / --endpoint`,
+   `-i / --iterator-type`, and `-v / --version`.
+1. **Added feature** : `-m / --max-records-per-request` argument to define the maximum number of records per request
+3. **Added feature** : Printed errors
+
+* recognized errors are printed with an explanation and potential solution
+* un-recognized errors are printed without stacktrace to simplify readability
+
 # 1.1.1 (2021-01-10)
 
 1. **Added feature** : The command `aws-kinesis-consumer` is usable from a docker container
