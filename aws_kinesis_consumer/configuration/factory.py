@@ -20,12 +20,12 @@ class ConfigurationFactory:
 
         required_arguments = self.parser.add_argument_group('required named arguments')
         required_arguments.add_argument(
-            '--stream-name', type=str, required=True,
+            '-s', '--stream-name', type=str, required=True,
             help='define the name of the Kinesis Data Stream which will be consumed',
         )
 
         self.parser.add_argument(
-            '--endpoint', type=str,
+            '-e', '--endpoint', type=str,
             help='''
                 define an URL of the AWS Kinesis Data Stream endpoint different from the default AWS endpoint
                 (e.g. https://kinesis.us-east-1.amazonaws.com/)
@@ -33,7 +33,7 @@ class ConfigurationFactory:
         )
 
         self.parser.add_argument(
-            '--iterator-type', type=str, default=IteratorType.LATEST.value.argument,
+            '-i', '--iterator-type', type=str, default=IteratorType.LATEST.value.argument,
             choices=[t.value.argument for t in IteratorType],
             help='''
             define the position in the shard from where to start reading data records.
@@ -45,7 +45,7 @@ class ConfigurationFactory:
         )
 
         self.parser.add_argument(
-            '--max-records-per-request', type=int, default=10,
+            '-m', '--max-records-per-request', type=int, default=10,
             help='''
             limit the maximum number of records per GetRecords request.
             (default: %(default)s)
@@ -53,7 +53,7 @@ class ConfigurationFactory:
         )
 
         self.parser.add_argument(
-            '--version',
+            '-v', '--version',
             action='version',
             version=AWS_KINESIS_CONSUMER_VERSION
         )

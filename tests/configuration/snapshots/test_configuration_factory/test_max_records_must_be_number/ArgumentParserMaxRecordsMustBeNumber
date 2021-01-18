@@ -1,2 +1,2 @@
 usage: aws-kinesis-consumer --stream-name STREAM-NAME
-aws-kinesis-consumer: error: argument --max-records-per-request: invalid int value: 'NOT_A_NUMBER'
+aws-kinesis-consumer: error: argument -m/--max-records-per-request: invalid int value: 'NOT_A_NUMBER'

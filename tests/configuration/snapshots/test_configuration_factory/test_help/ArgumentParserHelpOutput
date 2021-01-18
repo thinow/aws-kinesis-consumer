@@ -5,22 +5,23 @@ See https://aws.amazon.com/kinesis/data-streams/
 
 optional arguments:
   -h, --help            show this help message and exit
-  --endpoint ENDPOINT   define an URL of the AWS Kinesis Data Stream endpoint
+  -e ENDPOINT, --endpoint ENDPOINT
+                        define an URL of the AWS Kinesis Data Stream endpoint
                         different from the default AWS endpoint (e.g.
                         https://kinesis.us-east-1.amazonaws.com/)
-  --iterator-type {latest,trim-horizon}
+  -i {latest,trim-horizon}, --iterator-type {latest,trim-horizon}
                         define the position in the shard from where to start
                         reading data records. "latest" to start from the
                         latest records (e.g. the freshly produced records
                         only). "trim-horizon" to start from the earliest
                         records (e.g. all records existing in the shards, then
                         the freshly produced records). (default: latest)
-  --max-records-per-request MAX_RECORDS_PER_REQUEST
+  -m MAX_RECORDS_PER_REQUEST, --max-records-per-request MAX_RECORDS_PER_REQUEST
                         limit the maximum number of records per GetRecords
                         request. (default: 10)
-  --version             show program's version number and exit
+  -v, --version         show program's version number and exit
 
 required named arguments:
-  --stream-name STREAM_NAME
+  -s STREAM_NAME, --stream-name STREAM_NAME
                         define the name of the Kinesis Data Stream which will
                         be consumed

@@ -25,6 +25,11 @@ def test_stream_name():
     assert configuration.stream_name == 'STREAM'
 
 
+def test_stream_name_with_short_name_argument():
+    configuration = parse('-s STREAM')
+    assert configuration.stream_name == 'STREAM'
+
+
 def test_stream_name_is_required():
     with pytest.raises(SystemExit) as error:
         parse('')
