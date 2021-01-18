@@ -65,7 +65,7 @@ docker run \
 | `--endpoint` | `-e` |  | Custom AWS endpoint url to communicate with the AWS API. Could be used in order to specify a region (e.g. `https://kinesis.us-east-1.amazonaws.com/`). |
 | `--iterator-type` | `-i` | `latest` | Defines how to start consuming records from the stream. Use `latest` to consume the new records only. Or use `trim-horizon` to consume all the records already existing in the stream. |
 | `--max-records-per-request` | `-m` | `10` | Defines the maximum number of records per request. |
-|<img width="325"/>|<img width="0"/>|<img width="0"/>|<img width="0"/>|
+|<img width="400"/>|<img width="0"/>|<img width="0"/>|<img width="0"/>|
 | `--help` | `-h` | | Prints the help message. |
 | `--version` | `-v` | | Prints the version of the binary. |
 
