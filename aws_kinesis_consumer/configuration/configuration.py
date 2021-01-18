@@ -29,12 +29,13 @@ class Configuration:
                  iterator_type: IteratorType,
                  endpoint: typing.Optional[str],
                  delay_in_ms: int,
+                 max_records_per_request: int,
                  ):
         self.iterator_type = iterator_type
         self.stream_name = stream_name
         self.endpoint = endpoint
         self.delay_in_ms = delay_in_ms
-        self.max_records_per_request = 5  # TODO find AWS default value
+        self.max_records_per_request = max_records_per_request
 
     def __str__(self) -> str:
         return f'Configuration<stream_name={self.stream_name}>'

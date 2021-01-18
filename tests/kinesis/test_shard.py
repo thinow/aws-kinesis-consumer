@@ -14,6 +14,8 @@ ITERATOR_TYPE = IteratorType.LATEST
 DELAY_IN_MILS = 10
 DELAY_IN_SECS = DELAY_IN_MILS / 1_000
 
+MAX_NB_OF_RECORDS = 123
+
 
 def test_prepare_should_fetch_shard_iterator():
     # given
@@ -70,7 +72,7 @@ def test_limit_number_of_records_based_on_configuration():
     # then
     kinesis.get_records.assert_called_with(
         ShardIterator=ANY,
-        Limit=shard.configuration.max_records_per_request
+        Limit=MAX_NB_OF_RECORDS
     )
 
 
@@ -169,7 +171,14 @@ def create_shard():
     kinesis.get_shard_iterator.return_value = {'ShardIterator': SHARD_ITERATOR}
     kinesis.get_records.return_value = {'Records': []}
 
-    configuration = Configuration(STREAM_NAME, ITERATOR_TYPE, None, DELAY_IN_MILS)
+    configuration = Configuration(
+        STREAM_NAME,
+        ITERATOR_TYPE,
+        None,
+        DELAY_IN_MILS,
+        MAX_NB_OF_RECORDS,
+    )
+
     shard = Shard(SHARD_ID, configuration, kinesis)
 
     return shard, kinesis

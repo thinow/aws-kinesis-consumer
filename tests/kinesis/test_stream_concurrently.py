@@ -41,7 +41,8 @@ async def test_concurrently_consume(dockerized_kinesis: DockerizedKinesis):
             stream_name=dockerized_stream.name,
             endpoint=dockerized_kinesis.endpoint,
             iterator_type=IteratorType.LATEST,
-            delay_in_ms=100
+            delay_in_ms=100,
+            max_records_per_request=10,
         ))
         stream.prepare()
 

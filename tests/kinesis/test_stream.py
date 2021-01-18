@@ -30,7 +30,8 @@ def test_consume(dockerized_kinesis: DockerizedKinesis, capsys: CaptureFixture):
             stream_name=dockerized_stream.name,
             endpoint=dockerized_kinesis.endpoint,
             iterator_type=IteratorType.TRIM_HORIZON,
-            delay_in_ms=0
+            delay_in_ms=0,
+            max_records_per_request=10,
         ))
 
         # when
@@ -56,6 +57,7 @@ def test_prepare_should_list_shards():
         iterator_type=IteratorType.LATEST,
         endpoint=None,
         delay_in_ms=0,
+        max_records_per_request=10,
     ))
 
     kinesis.list_shards.return_value = {
@@ -82,6 +84,7 @@ def test_prepare_should_filter_shards_based_on_iterator():
         iterator_type=IteratorType.TRIM_HORIZON,
         endpoint=None,
         delay_in_ms=0,
+        max_records_per_request=10,
     ))
 
     # when
@@ -103,6 +106,7 @@ def test_prepare_should_list_subsequent_shards():
         iterator_type=IteratorType.LATEST,
         endpoint=None,
         delay_in_ms=0,
+        max_records_per_request=10,
     ))
 
     kinesis.list_shards.side_effect = [
@@ -129,6 +133,7 @@ def test_prepare_should_list_using_tokens():
         iterator_type=IteratorType.LATEST,
         endpoint=None,
         delay_in_ms=0,
+        max_records_per_request=10,
     ))
 
     kinesis.list_shards.side_effect = [

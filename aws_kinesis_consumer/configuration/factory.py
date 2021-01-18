@@ -57,7 +57,8 @@ class ConfigurationFactory:
             endpoint=parsed.endpoint,
             iterator_type=self.get_iterator_type(parsed.iterator_type),
             # delay recommended by AWS, see https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html
-            delay_in_ms=1_000
+            delay_in_ms=1_000,
+            max_records_per_request=10,  # TODO pick up from arguments
         )
 
     @staticmethod
