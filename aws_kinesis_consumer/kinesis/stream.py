@@ -1,7 +1,7 @@
 from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorTypeProperties
 from aws_kinesis_consumer.kinesis.shard import Shard
-from aws_kinesis_consumer.ui.progress_bar import ProgressBar
+from aws_kinesis_consumer.ui.progress import Progress
 
 
 class Stream:
@@ -15,11 +15,11 @@ class Stream:
         kinesis = self.aws_services_factory.create_kinesis(self.configuration)
         shards = self.find_shards(kinesis)
 
-        bar = ProgressBar(text='preparing streams iterators', max_value=len(shards))
-        bar.print()
+        progress = Progress(text='preparing streams iterators', max_value=len(shards))
+        progress.print()
         for shard in shards:
             shard.prepare()
-            bar.increment_and_print()
+            progress.increment_and_print()
         self.shards = shards
 
     def find_shards(self, kinesis) -> tuple:

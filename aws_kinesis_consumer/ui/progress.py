@@ -1,11 +1,7 @@
 import sys
 
 
-# TODO unit test
-# TODO prefix with a text
-# TODO suffix with current/max
-
-class ProgressBar:
+class Progress:
     def __init__(self, text: str, max_value: int) -> None:
         self.progress = 0
         self.goal = max_value
