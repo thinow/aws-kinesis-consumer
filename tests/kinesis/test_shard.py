@@ -5,6 +5,7 @@ from _pytest.capture import CaptureFixture
 
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
 from aws_kinesis_consumer.kinesis.shard import Shard
+from aws_kinesis_consumer.ui.printer import Printer
 
 STREAM_NAME = 'STREAM_NAME'
 SHARD_ID = 'SHARD_ID'
@@ -179,6 +180,6 @@ def create_shard():
         MAX_NB_OF_RECORDS,
     )
 
-    shard = Shard(SHARD_ID, configuration, kinesis)
+    shard = Shard(SHARD_ID, configuration, kinesis, Printer())
 
     return shard, kinesis

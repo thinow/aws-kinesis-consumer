@@ -1,18 +1,19 @@
-import sys
 import time
 
 from boto3_type_annotations.kinesis import Client as Kinesis
 
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorTypeProperties
+from aws_kinesis_consumer.ui.printer import Printer
 
 
 class Shard:
     next_shard_iterator: str
 
-    def __init__(self, shard_id: str, configuration: Configuration, kinesis: Kinesis) -> None:
+    def __init__(self, shard_id: str, configuration: Configuration, kinesis: Kinesis, printer=Printer) -> None:
         self.shard_id = shard_id
         self.configuration = configuration
         self.kinesis = kinesis
+        self.printer = printer
 
     def prepare(self):
         iterator_type_properties: IteratorTypeProperties = self.configuration.iterator_type.value
@@ -25,8 +26,7 @@ class Shard:
 
     def print_records(self) -> None:
         if self.next_shard_iterator is None:
-            print(f'<shard iterator is null, the shard seems to be closed, shard_id={self.shard_id}>', file=sys.stderr,
-                  flush=True)
+            self.printer.info(f'shard iterator is null, the shard seems to be closed, shard_id={self.shard_id}')
             return
 
         try:
@@ -36,15 +36,14 @@ class Shard:
             )
 
             records = response.get('Records')
-            print(f'<shard_id={self.shard_id}, records={len(records)}>', file=sys.stderr, flush=True)
+            self.printer.info(f'shard_id={self.shard_id}, records={len(records)}')
             for record in records:
-                data = record.get('Data')
-                print(str(data, encoding='UTF-8'), flush=True)
+                self.printer.print_data(record.get('Data'))
 
             self.next_shard_iterator = response.get('NextShardIterator')
 
         except Exception as error:
-            print(f'<error, shard_id={self.shard_id}, message={repr(error)}>', file=sys.stderr, flush=True)
+            self.printer.error(f'shard_id={self.shard_id}', error)
 
         finally:
             # delay recommended by AWS, see https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html

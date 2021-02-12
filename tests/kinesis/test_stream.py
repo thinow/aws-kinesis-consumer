@@ -9,6 +9,7 @@ from boto3_type_annotations.kinesis import Client
 from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
 from aws_kinesis_consumer.kinesis.stream import Stream
+from aws_kinesis_consumer.ui.printer import Printer
 from tests.kinesis.dockerized.DockerizedKinesis import DUMMY_AWS_ENV_VARS
 from tests.kinesis.dockerized.DockerizedKinesis import DockerizedKinesis
 
@@ -26,7 +27,7 @@ def test_consume(dockerized_kinesis: DockerizedKinesis, capsys: CaptureFixture):
         dockerized_stream.put_record('bar')
         dockerized_stream.put_record('baz')
 
-        stream_helper = Stream(AWSServicesFactory(), Configuration(
+        stream_helper = Stream(AWSServicesFactory(), Printer(), Configuration(
             stream_name=dockerized_stream.name,
             endpoint=dockerized_kinesis.endpoint,
             iterator_type=IteratorType.TRIM_HORIZON,
@@ -162,6 +163,6 @@ def create_stream_with_mocks(configuration: Configuration):
     aws_services_factory: AWSServicesFactory = Mock()
     aws_services_factory.create_kinesis.return_value = kinesis
 
-    stream = Stream(aws_services_factory, configuration)
+    stream = Stream(aws_services_factory, Printer(), configuration)
 
     return stream, kinesis

@@ -9,6 +9,7 @@ import pytest
 from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorType
 from aws_kinesis_consumer.kinesis.stream import Stream
+from aws_kinesis_consumer.ui.printer import Printer
 from tests.kinesis.dockerized.DockerizedKinesis import DockerizedKinesis, DUMMY_AWS_ENV_VARS
 
 HOOK_MESSAGE = 'hook-message'
@@ -37,7 +38,7 @@ def split_unique_lines(getvalue: str) -> set:
 async def test_concurrently_consume(dockerized_kinesis: DockerizedKinesis):
     with dockerized_kinesis.create_dockerized_stream() as dockerized_stream:
         # given
-        stream = Stream(AWSServicesFactory(), Configuration(
+        stream = Stream(AWSServicesFactory(), Printer(), Configuration(
             stream_name=dockerized_stream.name,
             endpoint=dockerized_kinesis.endpoint,
             iterator_type=IteratorType.LATEST,

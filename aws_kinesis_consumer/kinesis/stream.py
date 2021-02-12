@@ -1,20 +1,24 @@
 from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
 from aws_kinesis_consumer.configuration.configuration import Configuration, IteratorTypeProperties
 from aws_kinesis_consumer.kinesis.shard import Shard
+from aws_kinesis_consumer.ui.printer import Printer
 from aws_kinesis_consumer.ui.progress import Progress
 
 
 class Stream:
     shards: tuple
 
-    def __init__(self, aws_services_factory: AWSServicesFactory, configuration: Configuration) -> None:
+    def __init__(self, aws_services_factory: AWSServicesFactory, printer: Printer,
+                 configuration: Configuration) -> None:
         self.aws_services_factory = aws_services_factory
+        self.printer = printer
         self.configuration = configuration
 
     def prepare(self):
         kinesis = self.aws_services_factory.create_kinesis(self.configuration)
         shards = self.find_shards(kinesis)
 
+        # TODO pass printer to progress
         progress = Progress(text='preparing streams iterators', max_value=len(shards))
         progress.print()
         for shard in shards:
@@ -29,7 +33,8 @@ class Stream:
             lambda shard_id: Shard(
                 shard_id=shard_id,
                 configuration=self.configuration,
-                kinesis=kinesis
+                kinesis=kinesis,
+                printer=self.printer,
             ),
             shards_ids
         )

@@ -13,7 +13,8 @@ def main():
 
         stream = Stream(
             ctx.aws_services_factory,
-            ctx.configuration_factory.create_configuration(arguments)
+            ctx.configuration_factory.create_configuration(arguments),
+            ctx.printer,
         )
 
         stream.prepare()
