@@ -9,7 +9,7 @@ from aws_kinesis_consumer.ui.printer import Printer
 class Shard:
     next_shard_iterator: str
 
-    def __init__(self, shard_id: str, configuration: Configuration, kinesis: Kinesis, printer=Printer) -> None:
+    def __init__(self, shard_id: str, configuration: Configuration, kinesis: Kinesis, printer: Printer) -> None:
         self.shard_id = shard_id
         self.configuration = configuration
         self.kinesis = kinesis

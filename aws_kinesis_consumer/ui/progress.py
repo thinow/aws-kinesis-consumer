@@ -11,7 +11,7 @@ class Progress:
         self.file = sys.stderr
         self.printer = printer
 
-    def increment_and_print(self):
+    def increment_and_print(self) -> None:
         self.current = self.current + 1
         self.print()
 
