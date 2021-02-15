@@ -12,9 +12,9 @@ def main():
         ctx = Context()
 
         stream = Stream(
-            ctx.aws_services_factory,
-            ctx.configuration_factory.create_configuration(arguments),
-            ctx.printer,
+            aws_services_factory=ctx.aws_services_factory,
+            printer=ctx.printer,
+            configuration=ctx.configuration_factory.create_configuration(arguments),
         )
 
         stream.prepare()
