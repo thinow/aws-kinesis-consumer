@@ -6,20 +6,22 @@ import sys
 class Printer:
 
     def __init__(self) -> None:
-        self.data_encoding = 'UTF-8'
+        self.channel_notification = sys.stderr
+        self.channel_data = sys.stdout
 
     def info(self, text: str, replaceable=False) -> None:
         print(
             # TODO change the format for "# TEXT" ?
             f'<{text}>',
-            file=sys.stderr,
+            file=self.channel_notification,
             flush=(not replaceable),
             end=('\r' if replaceable else '\n'),
         )
 
-    def error(self, text: str, error: BaseException) -> None:
-        self.info(f'ERROR : {text}, message={repr(error)}')
+    def error(self, text: str) -> None:
+        # TODO format error text ? See shard.py (line 46, except)
+        print(text, flush=True, file=self.channel_notification)
 
-    def print_data(self, data: bytes) -> None:
-        data_as_string = str(data, encoding=self.data_encoding)
-        print(data_as_string, flush=True, file=sys.stdout)
+    def data(self, data_in_bytes: bytes) -> None:
+        data_as_string = str(data_in_bytes, encoding='UTF-8')
+        print(data_as_string, flush=True, file=self.channel_data)

@@ -2,12 +2,13 @@ from botocore.exceptions import NoRegionError, NoCredentialsError, PartialCreden
 from pytest import CaptureFixture, raises
 
 from aws_kinesis_consumer import ErrorHandler
+from aws_kinesis_consumer.ui.printer import Printer
 
 
 def test_user_interrupting_program(capsys: CaptureFixture):
     # when
     with raises(SystemExit) as raised_error:
-        ErrorHandler.handle(KeyboardInterrupt())
+        ErrorHandler(Printer()).handle(KeyboardInterrupt())
 
     # then
     assert program_exists(raised_error, expected_code=0)
@@ -20,7 +21,7 @@ def test_user_interrupting_program(capsys: CaptureFixture):
 def test_bypass_system_exit(capsys: CaptureFixture):
     # when
     with raises(SystemExit) as raised_error:
-        ErrorHandler.handle(SystemExit(123))
+        ErrorHandler(Printer()).handle(SystemExit(123))
 
     # then
     assert program_exists(raised_error, expected_code=123)
@@ -33,7 +34,7 @@ def test_bypass_system_exit(capsys: CaptureFixture):
 def test_unexpected_error(capsys: CaptureFixture):
     # when
     with raises(SystemExit) as raised_error:
-        ErrorHandler.handle(RuntimeError('Unexpected error'))
+        ErrorHandler(Printer()).handle(RuntimeError('Unexpected error'))
 
     # then
     assert program_exists(raised_error, expected_code=1)
@@ -49,7 +50,7 @@ def test_unexpected_error(capsys: CaptureFixture):
 def test_missing_aws_region(capsys: CaptureFixture):
     # when
     with raises(SystemExit) as raised_error:
-        ErrorHandler.handle(NoRegionError())
+        ErrorHandler(Printer()).handle(NoRegionError())
 
     # then
     assert program_exists(raised_error, expected_code=1)
@@ -66,7 +67,7 @@ def test_missing_aws_region(capsys: CaptureFixture):
 def test_partially_missing_aws_credentials(capsys: CaptureFixture):
     # when
     with raises(SystemExit) as raised_error:
-        ErrorHandler.handle(PartialCredentialsError(
+        ErrorHandler(Printer()).handle(PartialCredentialsError(
             provider='provider', cred_var='cred_var'
         ))
 
@@ -87,7 +88,7 @@ def test_partially_missing_aws_credentials(capsys: CaptureFixture):
 def test_missing_aws_credentials(capsys: CaptureFixture):
     # when
     with raises(SystemExit) as raised_error:
-        ErrorHandler.handle(NoCredentialsError())
+        ErrorHandler(Printer()).handle(NoCredentialsError())
 
     # then
     assert program_exists(raised_error, expected_code=1)

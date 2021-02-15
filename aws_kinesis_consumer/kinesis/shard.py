@@ -38,12 +38,12 @@ class Shard:
             records = response.get('Records')
             self.printer.info(f'shard_id={self.shard_id}, records={len(records)}')
             for record in records:
-                self.printer.print_data(record.get('Data'))
+                self.printer.data(record.get('Data'))
 
             self.next_shard_iterator = response.get('NextShardIterator')
 
         except Exception as error:
-            self.printer.error(f'shard_id={self.shard_id}', error)
+            self.printer.error(f'ERROR: shard_id={self.shard_id}, message=${repr(error)}')
 
         finally:
             # delay recommended by AWS, see https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html

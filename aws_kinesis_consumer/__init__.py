@@ -3,17 +3,20 @@ import sys
 from aws_kinesis_consumer.application.context import Context
 from aws_kinesis_consumer.error.handler import ErrorHandler
 from aws_kinesis_consumer.kinesis.stream import Stream
+from aws_kinesis_consumer.ui.printer import Printer
 
 
 def main():
     arguments = sys.argv[1:]
+
+    printer = Printer()
 
     try:
         ctx = Context()
 
         stream = Stream(
             aws_services_factory=ctx.aws_services_factory,
-            printer=ctx.printer,
+            printer=printer,
             configuration=ctx.configuration_factory.create_configuration(arguments),
         )
 
@@ -22,4 +25,4 @@ def main():
             stream.print_records()
 
     except BaseException as error:
-        ErrorHandler.handle(error)
+        ErrorHandler(printer).handle(error)
