@@ -1,3 +1,5 @@
+import os
+
 from invoke import task
 
 from tasks_helper.demo.demo_consumer import DemoConsumer
@@ -40,6 +42,22 @@ def demo(c, action):
         DemoProducer.run(c, 'http://localhost:4567/', 'foo')
     else:
         raise ValueError(f'Unknown argument : {action}')
+
+
+@task
+def assertnotodos(c):
+    for root, directories, files in os.walk(os.curdir):
+        for filename in files:
+            filepath = os.path.join(root, filename)
+            print(filepath)
+
+            # TODO find str in file
+            # with open('example.txt') as f:
+            #    if 'blabla' in f.read():
+            #        print("true")
+
+        # for name in directories:
+        #     print(os.path.join(root, name))
 
 
 @task
