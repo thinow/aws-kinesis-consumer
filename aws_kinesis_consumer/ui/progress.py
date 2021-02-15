@@ -1,12 +1,15 @@
 import sys
 
+from aws_kinesis_consumer.ui.printer import Printer
+
 
 class Progress:
-    def __init__(self, text: str, max_value: int) -> None:
+    def __init__(self, text: str, max_value: int, printer: Printer) -> None:
         self.current = 0
         self.goal = max_value
         self.text = text
         self.file = sys.stderr
+        self.printer = printer
 
     def increment_and_print(self):
         self.current = self.current + 1
@@ -14,10 +17,7 @@ class Progress:
 
     def print(self) -> None:
         replace_line = self.current < self.goal
-        if replace_line:
-            print(self.get_printable(), file=self.file, flush=False, end='\r')
-        else:
-            print(self.get_printable(), file=self.file, flush=True)
-
-    def get_printable(self) -> str:
-        return f'<{self.text} {self.current}/{self.goal}>'
+        self.printer.info(
+            f'{self.text} {self.current}/{self.goal}',
+            replaceable=replace_line
+        )

@@ -2,12 +2,13 @@ import sys
 
 from pytest import CaptureFixture
 
+from aws_kinesis_consumer.ui.printer import Printer
 from aws_kinesis_consumer.ui.progress import Progress
 
 
 def test_initial_progress_value(capsys: CaptureFixture):
     # when
-    Progress('TEXT', max_value=3).print()
+    create_progress(3).print()
 
     # then
     force_end_of_capture()
@@ -18,7 +19,7 @@ def test_initial_progress_value(capsys: CaptureFixture):
 
 def test_first_call_to_increment_and_print(capsys: CaptureFixture):
     # when
-    Progress('TEXT', max_value=3).increment_and_print()
+    create_progress(3).increment_and_print()
 
     # then
     force_end_of_capture()
@@ -29,7 +30,7 @@ def test_first_call_to_increment_and_print(capsys: CaptureFixture):
 
 def test_consecutive_calls_to_increment_and_print(capsys: CaptureFixture):
     # when
-    progress = Progress('TEXT', max_value=3)
+    progress = create_progress(3)
     progress.increment_and_print()
     progress.increment_and_print()
 
@@ -42,7 +43,7 @@ def test_consecutive_calls_to_increment_and_print(capsys: CaptureFixture):
 
 def test_extra_calls_to_increment_and_print(capsys: CaptureFixture):
     # when
-    progress = Progress('TEXT', max_value=3)
+    progress = create_progress(3)
     progress.increment_and_print()
     progress.increment_and_print()
     progress.increment_and_print()
@@ -54,6 +55,10 @@ def test_extra_calls_to_increment_and_print(capsys: CaptureFixture):
         '<TEXT 3/3>',
         '<TEXT 4/3>',
     ]
+
+
+def create_progress(max_value: int):
+    return Progress('TEXT', max_value, Printer())
 
 
 def force_end_of_capture():

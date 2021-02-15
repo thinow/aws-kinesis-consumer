@@ -18,8 +18,12 @@ class Stream:
         kinesis = self.aws_services_factory.create_kinesis(self.configuration)
         shards = self.find_shards(kinesis)
 
-        # TODO pass printer to progress
-        progress = Progress(text='preparing streams iterators', max_value=len(shards))
+        progress = Progress(
+            text='preparing streams iterators',
+            max_value=len(shards),
+            printer=self.printer,
+        )
+
         progress.print()
         for shard in shards:
             shard.prepare()
