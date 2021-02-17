@@ -46,18 +46,27 @@ def demo(c, action):
 
 @task
 def assertnotodos(c):
+    has_todo_been_found = False
     for root, directories, files in os.walk(os.curdir):
         for filename in files:
             filepath = os.path.join(root, filename)
-            print(filepath)
 
-            # TODO find str in file
-            # with open('example.txt') as f:
-            #    if 'blabla' in f.read():
-            #        print("true")
+            if root.startswith('./.git') or root.startswith('./.idea'):
+                continue
+            if filepath == './tasks.py':
+                continue
 
-        # for name in directories:
-        #     print(os.path.join(root, name))
+            try:
+                with open(filepath, 'r') as file:
+                    if 'TODO' in file.read():
+                        has_todo_been_found = True
+                        print(f'TODO found in {filepath}')
+            except BaseException:
+                # ignore error
+                pass
+
+    if has_todo_been_found:
+        exit(1)
 
 
 @task
