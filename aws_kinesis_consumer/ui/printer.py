@@ -1,8 +1,6 @@
 import sys
 
 
-# TODO unit test
-
 class Printer:
 
     def __init__(self) -> None:
