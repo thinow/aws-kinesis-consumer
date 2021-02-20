@@ -4,19 +4,20 @@ import boto3
 from boto3_type_annotations.kinesis import Client as Kinesis
 
 DUMMY_AWS_ENV_VARS = {
-    "AWS_DEFAULT_REGION": "anything",
     "AWS_ACCESS_KEY_ID": "anything",
     "AWS_SECRET_ACCESS_KEY": "anything",
 }
 
 
 class DockerizedKinesis:
+    region: str
     endpoint: str
     kinesis: Kinesis
 
     def __init__(self, endpoint: str) -> None:
+        self.region = 'anything'
         self.endpoint = endpoint
-        self.kinesis = boto3.client('kinesis', endpoint_url=endpoint)
+        self.kinesis = boto3.client('kinesis', endpoint_url=endpoint, region_name=self.region)
 
     def create_dockerized_stream(self):
         stream_name = f'dockerized-stream-{uuid.uuid4()}'

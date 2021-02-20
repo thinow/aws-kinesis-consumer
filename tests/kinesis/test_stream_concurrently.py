@@ -40,6 +40,7 @@ async def test_concurrently_consume(dockerized_kinesis: DockerizedKinesis):
             # given
             stream = Stream(AWSServicesFactory(), Printer(), Configuration(
                 stream_name=dockerized_stream.name,
+                region=dockerized_kinesis.region,
                 endpoint=dockerized_kinesis.endpoint,
                 iterator_type=IteratorType.LATEST,
                 delay_in_ms=100,

@@ -29,6 +29,7 @@ def test_consume(dockerized_kinesis: DockerizedKinesis, capsys: CaptureFixture):
 
         stream_helper = Stream(AWSServicesFactory(), Printer(), Configuration(
             stream_name=dockerized_stream.name,
+            region=dockerized_kinesis.region,
             endpoint=dockerized_kinesis.endpoint,
             iterator_type=IteratorType.TRIM_HORIZON,
             delay_in_ms=0,

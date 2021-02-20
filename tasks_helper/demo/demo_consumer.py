@@ -6,7 +6,6 @@ class DemoConsumer:
     @classmethod
     def run(cls, runner: invoke.Runner, endpoint: str, stream_name: str):
         environment_vars = ' '.join([
-            'AWS_DEFAULT_REGION=any',
             'AWS_SECRET_ACCESS_KEY=any',
             'AWS_ACCESS_KEY_ID=any',
         ])
@@ -14,6 +13,7 @@ class DemoConsumer:
         arguments = ' '.join([
             f'--endpoint {endpoint}',
             f'--stream-name {stream_name}',
+            f'--region any-region',
         ])
 
         runner.run('docker-compose up -d')
