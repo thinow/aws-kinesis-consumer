@@ -1,8 +1,16 @@
+# 1.3.0 (2021-02-20)
+
+1. **Added feature** : `-r / --region` argument to define the AWS region.
+2. **Added feature** : prints progress when preparing the shards.
+3. **Non-breaking change** : format of the logs going to stderr is changed (e.g. prefixed with `>`).
+4. **Non-breaking change** : user-friendly error when the stream is not found.
+5. **Non-breaking change** : user-friendly error when the AWS session token is expired.
+
 # 1.2.0 (2021-01-18)
 
 1. **Added feature** : all arguments can be defined with short names. Affects `-s / --stream-name`, `-e / --endpoint`,
    `-i / --iterator-type`, and `-v / --version`.
-1. **Added feature** : `-m / --max-records-per-request` argument to define the maximum number of records per request
+2. **Added feature** : `-m / --max-records-per-request` argument to define the maximum number of records per request
 3. **Added feature** : Printed errors
 
 * recognized errors are printed with an explanation and potential solution
