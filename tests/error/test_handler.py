@@ -108,7 +108,11 @@ def test_expired_aws_token(capsys: CaptureFixture):
     # when
     with raises(SystemExit) as raised_error:
         ErrorHandler(Printer()).handle(
-            ClientError({'Error': {'Code': 'ExpiredTokenException'}}, 'AnyAWSOperation')
+            ClientError(operation_name='AnyAWSOperation', error_response={
+                'Error': {
+                    'Code': 'ExpiredTokenException'
+                }
+            })
         )
 
     # then
@@ -126,7 +130,7 @@ def test_unknown_aws_client_error(capsys: CaptureFixture):
     # when
     with raises(SystemExit) as raised_error:
         ErrorHandler(Printer()).handle(
-            ClientError({}, 'AnyAWSOperation')
+            ClientError(error_response={}, operation_name='AnyAWSOperation')
         )
 
     # then
@@ -136,6 +140,30 @@ def test_unknown_aws_client_error(capsys: CaptureFixture):
         'stderr': [
             "! ERROR: the program stopped due to the following issue.",
             "! ClientError('An error occurred (Unknown) when calling the AnyAWSOperation operation: Unknown')",
+        ],
+    }
+
+
+def test_stream_not_found(capsys: CaptureFixture):
+    # when
+    with raises(SystemExit) as raised_error:
+        ErrorHandler(Printer()).handle(
+            ClientError(operation_name='AnyAWSOperation', error_response={
+                'Error': {
+                    'Code': 'ResourceNotFoundException',
+                    'Message': 'OriginalErrorMessage',
+                }
+            })
+        )
+
+    # then
+    assert program_exists(raised_error, expected_code=1)
+    assert extract_output(capsys) == {
+        'stdout': [],
+        'stderr': [
+            '! ERROR: the Kinesis Stream has not been found.',
+            '! OriginalErrorMessage',
+            '! Hint: verify the account id, the stream name, and the AWS region.'
         ],
     }
 

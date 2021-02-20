@@ -31,6 +31,11 @@ class ErrorHandler:
             self.printer.error('ERROR: AWS session token has expired.')
             self.printer.error('Please refresh the AWS credentials.')
             raise SystemExit(1)
+        elif ErrorHandler.is_client_error_with_code(error, 'ResourceNotFoundException'):
+            self.printer.error('ERROR: the Kinesis Stream has not been found.')
+            self.printer.error(error.response.get('Error', {}).get('Message', 'Unknown'))
+            self.printer.error('Hint: verify the account id, the stream name, and the AWS region.')
+            raise SystemExit(1)
         else:
             self.printer.error(f'ERROR: the program stopped due to the following issue.')
             self.printer.error(repr(error))
