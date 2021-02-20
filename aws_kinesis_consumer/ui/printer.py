@@ -9,7 +9,6 @@ class Printer:
 
     def info(self, text: str, replaceable=False) -> None:
         print(
-            # TODO change the format for "# TEXT" ?
             f'<{text}>',
             file=self.channel_notification,
             flush=(not replaceable),
@@ -17,7 +16,6 @@ class Printer:
         )
 
     def error(self, text: str) -> None:
-        # TODO format error text ? See shard.py (line 46, except)
         print(text, flush=True, file=self.channel_notification)
 
     def data(self, data_in_bytes: bytes) -> None:
