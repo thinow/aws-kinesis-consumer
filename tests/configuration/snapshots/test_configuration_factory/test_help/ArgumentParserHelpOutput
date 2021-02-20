@@ -19,6 +19,10 @@ optional arguments:
   -m MAX_RECORDS_PER_REQUEST, --max-records-per-request MAX_RECORDS_PER_REQUEST
                         limit the maximum number of records per GetRecords
                         request. (default: 10)
+  -r REGION, --region REGION
+                        AWS region of the Kinesis stream. If not set, will
+                        default to the AWS region defined for the terminal
+                        (e.g. AWS_DEFAULT_REGION environment variable).
   -v, --version         show program's version number and exit
 
 required named arguments:

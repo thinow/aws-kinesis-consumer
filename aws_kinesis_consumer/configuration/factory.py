@@ -53,6 +53,15 @@ class ConfigurationFactory:
         )
 
         self.parser.add_argument(
+            '-r', '--region', type=str,
+            help='''
+            AWS region of the Kinesis stream.
+            If not set, will default to the AWS region defined for the terminal
+            (e.g. AWS_DEFAULT_REGION environment variable).
+            ''',
+        )
+
+        self.parser.add_argument(
             '-v', '--version',
             action='version',
             version=AWS_KINESIS_CONSUMER_VERSION
