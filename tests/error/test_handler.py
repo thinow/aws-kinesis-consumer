@@ -41,8 +41,8 @@ def test_unexpected_error(capsys: CaptureFixture):
     assert extract_output(capsys) == {
         'stdout': [],
         'stderr': [
-            "ERROR: the program stopped due to the following issue.",
-            "RuntimeError('Unexpected error')",
+            "! ERROR: the program stopped due to the following issue.",
+            "! RuntimeError('Unexpected error')",
         ],
     }
 
@@ -57,9 +57,9 @@ def test_missing_aws_region(capsys: CaptureFixture):
     assert extract_output(capsys) == {
         'stdout': [],
         'stderr': [
-            "ERROR: AWS region has not been found.",
-            "Please pass the region using the environment variable AWS_DEFAULT_REGION. Example:",
-            "$ AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyStream",
+            "! ERROR: AWS region has not been found.",
+            "! Please pass the region using the environment variable AWS_DEFAULT_REGION. Example:",
+            "! $ AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyStream",
         ],
     }
 
@@ -76,11 +76,11 @@ def test_partially_missing_aws_credentials(capsys: CaptureFixture):
     assert extract_output(capsys) == {
         'stdout': [],
         'stderr': [
-            "ERROR: AWS credentials have not been found.",
-            "Please pass the credentials using the following environment variables :",
-            "AWS_ACCESS_KEY_ID",
-            "AWS_SECRET_ACCESS_KEY",
-            "AWS_SESSION_TOKEN (optional)",
+            "! ERROR: AWS credentials have not been found.",
+            "! Please pass the credentials using the following environment variables :",
+            "! AWS_ACCESS_KEY_ID",
+            "! AWS_SECRET_ACCESS_KEY",
+            "! AWS_SESSION_TOKEN (optional)",
         ],
     }
 
@@ -95,11 +95,11 @@ def test_missing_aws_credentials(capsys: CaptureFixture):
     assert extract_output(capsys) == {
         'stdout': [],
         'stderr': [
-            "ERROR: AWS credentials have not been found.",
-            "Please pass the credentials using the following environment variables :",
-            "AWS_ACCESS_KEY_ID",
-            "AWS_SECRET_ACCESS_KEY",
-            "AWS_SESSION_TOKEN (optional)",
+            "! ERROR: AWS credentials have not been found.",
+            "! Please pass the credentials using the following environment variables :",
+            "! AWS_ACCESS_KEY_ID",
+            "! AWS_SECRET_ACCESS_KEY",
+            "! AWS_SESSION_TOKEN (optional)",
         ],
     }
 

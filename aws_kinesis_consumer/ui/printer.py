@@ -9,14 +9,14 @@ class Printer:
 
     def info(self, text: str, replaceable=False) -> None:
         print(
-            f'<{text}>',
+            f'> {text}',
             file=self.channel_notification,
             flush=(not replaceable),
             end=('\r' if replaceable else '\n'),
         )
 
     def error(self, text: str) -> None:
-        print(text, flush=True, file=self.channel_notification)
+        print(f'! {text}', flush=True, file=self.channel_notification)
 
     def data(self, data_in_bytes: bytes) -> None:
         data_as_string = str(data_in_bytes, encoding='UTF-8')

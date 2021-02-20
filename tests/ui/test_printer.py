@@ -9,7 +9,7 @@ def test_info(capsys: CaptureFixture):
 
     # then
     assert capsys.readouterr().err.splitlines() == [
-        '<INFO TEXT>',
+        '> INFO TEXT',
     ]
 
 
@@ -21,9 +21,9 @@ def test_info_with_replaceable(capsys: CaptureFixture):
 
     # then
     assert capsys.readouterr().err.splitlines(keepends=True) == [
-        '<FIRST>\r',
-        '<SECOND>\r',
-        '<THIRD>\n',
+        '> FIRST\r',
+        '> SECOND\r',
+        '> THIRD\n',
     ]
 
 
@@ -33,7 +33,7 @@ def test_error(capsys: CaptureFixture):
 
     # then
     assert capsys.readouterr().err.splitlines() == [
-        'ERROR TEXT',
+        '! ERROR TEXT',
     ]
 
 

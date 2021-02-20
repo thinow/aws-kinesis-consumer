@@ -13,7 +13,7 @@ def test_initial_progress_value(capsys: CaptureFixture):
     # then
     force_end_of_capture()
     assert extract_final_output(capsys) == [
-        '<TEXT 0/3>'
+        '> TEXT 0/3'
     ]
 
 
@@ -24,7 +24,7 @@ def test_first_call_to_increment_and_print(capsys: CaptureFixture):
     # then
     force_end_of_capture()
     assert extract_final_output(capsys) == [
-        '<TEXT 1/3>'
+        '> TEXT 1/3'
     ]
 
 
@@ -37,7 +37,7 @@ def test_consecutive_calls_to_increment_and_print(capsys: CaptureFixture):
     # then
     force_end_of_capture()
     assert extract_final_output(capsys) == [
-        '<TEXT 2/3>',
+        '> TEXT 2/3',
     ]
 
 
@@ -52,8 +52,8 @@ def test_extra_calls_to_increment_and_print(capsys: CaptureFixture):
     # then
     force_end_of_capture()
     assert extract_final_output(capsys) == [
-        '<TEXT 3/3>',
-        '<TEXT 4/3>',
+        '> TEXT 3/3',
+        '> TEXT 4/3',
     ]
 
 
