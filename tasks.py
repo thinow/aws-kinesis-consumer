@@ -1,7 +1,6 @@
-import os
-
 from invoke import task
 
+from tasks_helper.assert_no_todos.assert_no_todos import assert_no_todos
 from tasks_helper.demo.demo_consumer import DemoConsumer
 from tasks_helper.demo.demo_producer import DemoProducer
 from tasks_helper.packager.docker import DockerPackager
@@ -46,27 +45,7 @@ def demo(c, action):
 
 @task
 def assertnotodos(c):
-    has_todo_been_found = False
-    for root, directories, files in os.walk(os.curdir):
-        for filename in files:
-            filepath = os.path.join(root, filename)
-
-            if root.startswith('./.git') or root.startswith('./.idea'):
-                continue
-            if filepath == './tasks.py':
-                continue
-
-            try:
-                with open(filepath, 'r') as file:
-                    if 'TODO' in file.read():
-                        has_todo_been_found = True
-                        print(f'TODO found in {filepath}')
-            except BaseException:
-                # ignore error
-                pass
-
-    if has_todo_been_found:
-        exit(1)
+    assert_no_todos()
 
 
 @task
