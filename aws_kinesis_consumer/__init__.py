@@ -1,6 +1,7 @@
 import sys
 
-from aws_kinesis_consumer.application.context import Context
+from aws_kinesis_consumer.aws.aws_services_factory import AWSServicesFactory
+from aws_kinesis_consumer.configuration.factory import ConfigurationFactory
 from aws_kinesis_consumer.error.handler import ErrorHandler
 from aws_kinesis_consumer.kinesis.stream import Stream
 from aws_kinesis_consumer.ui.printer import Printer
@@ -12,12 +13,13 @@ def main():
     printer = Printer()
 
     try:
-        ctx = Context()
+        configuration_factory = ConfigurationFactory()
+        aws_services_factory = AWSServicesFactory()
 
         stream = Stream(
-            aws_services_factory=ctx.aws_services_factory,
+            aws_services_factory=aws_services_factory,
             printer=printer,
-            configuration=ctx.configuration_factory.create_configuration(arguments),
+            configuration=configuration_factory.create_configuration(arguments),
         )
 
         stream.prepare()
