@@ -17,8 +17,8 @@ class ErrorHandler:
             raise SystemExit(error.code)
         elif isinstance(error, NoRegionError):
             self.printer.error('ERROR: AWS region has not been found.')
-            self.printer.error('Please pass the region using the environment variable AWS_DEFAULT_REGION. Example:')
-            self.printer.error('$ AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyStream')
+            self.printer.error('Please pass the region using the --region argument. Example:')
+            self.printer.error('$ aws-kinesis-consumer --stream-name MyStream --region us-east-1')
             raise SystemExit(1)
         elif isinstance(error, (NoCredentialsError, PartialCredentialsError, CredentialRetrievalError)):
             self.printer.error('ERROR: AWS credentials have not been found.')

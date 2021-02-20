@@ -58,8 +58,8 @@ def test_missing_aws_region(capsys: CaptureFixture):
         'stdout': [],
         'stderr': [
             "! ERROR: AWS region has not been found.",
-            "! Please pass the region using the environment variable AWS_DEFAULT_REGION. Example:",
-            "! $ AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyStream",
+            "! Please pass the region using the --region argument. Example:",
+            "! $ aws-kinesis-consumer --stream-name MyStream --region us-east-1",
         ],
     }
 
