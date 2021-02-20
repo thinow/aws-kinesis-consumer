@@ -7,4 +7,5 @@ echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 pipenv run invoke --echo test
 pipenv run invoke --echo build
+pipenv run invoke --echo assertnotodos
 pipenv run invoke --echo deploy ${1}
