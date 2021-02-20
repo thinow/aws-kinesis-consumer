@@ -15,11 +15,13 @@ class Stream:
         self.configuration = configuration
 
     def prepare(self):
+        self.printer.info('searching stream')
+
         kinesis = self.aws_services_factory.create_kinesis(self.configuration)
         shards = self.find_shards(kinesis)
 
         progress = Progress(
-            text='preparing streams',
+            text='preparing shards',
             max_value=len(shards),
             printer=self.printer,
         )
