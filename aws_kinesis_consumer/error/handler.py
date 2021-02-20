@@ -1,4 +1,5 @@
-from botocore.exceptions import NoRegionError, NoCredentialsError, PartialCredentialsError, CredentialRetrievalError
+from botocore.exceptions import NoRegionError, NoCredentialsError, PartialCredentialsError, CredentialRetrievalError, \
+    ClientError
 
 from aws_kinesis_consumer.ui.printer import Printer
 
@@ -26,7 +27,24 @@ class ErrorHandler:
             self.printer.error('AWS_SECRET_ACCESS_KEY')
             self.printer.error('AWS_SESSION_TOKEN (optional)')
             raise SystemExit(1)
+        elif ErrorHandler.is_client_error_with_code(error, 'ExpiredTokenException'):
+            self.printer.error('ERROR: AWS session token has expired.')
+            self.printer.error('Please refresh the AWS credentials.')
+            raise SystemExit(1)
         else:
             self.printer.error(f'ERROR: the program stopped due to the following issue.')
             self.printer.error(repr(error))
             raise SystemExit(1)
+
+    @staticmethod
+    def is_client_error_with_code(error: BaseException, error_code: str) -> bool:
+        if not isinstance(error, ClientError):
+            return False
+
+        if 'Error' not in error.response:
+            return False
+
+        if 'Code' not in error.response['Error']:
+            return False
+
+        return error.response['Error']['Code'] == error_code

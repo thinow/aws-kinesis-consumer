@@ -1,4 +1,4 @@
-from botocore.exceptions import NoRegionError, NoCredentialsError, PartialCredentialsError
+from botocore.exceptions import NoRegionError, NoCredentialsError, PartialCredentialsError, ClientError
 from pytest import CaptureFixture, raises
 
 from aws_kinesis_consumer import ErrorHandler
@@ -100,6 +100,42 @@ def test_missing_aws_credentials(capsys: CaptureFixture):
             "! AWS_ACCESS_KEY_ID",
             "! AWS_SECRET_ACCESS_KEY",
             "! AWS_SESSION_TOKEN (optional)",
+        ],
+    }
+
+
+def test_expired_aws_token(capsys: CaptureFixture):
+    # when
+    with raises(SystemExit) as raised_error:
+        ErrorHandler(Printer()).handle(
+            ClientError({'Error': {'Code': 'ExpiredTokenException'}}, 'AnyAWSOperation')
+        )
+
+    # then
+    assert program_exists(raised_error, expected_code=1)
+    assert extract_output(capsys) == {
+        'stdout': [],
+        'stderr': [
+            "! ERROR: AWS session token has expired.",
+            "! Please refresh the AWS credentials.",
+        ],
+    }
+
+
+def test_unknown_aws_client_error(capsys: CaptureFixture):
+    # when
+    with raises(SystemExit) as raised_error:
+        ErrorHandler(Printer()).handle(
+            ClientError({}, 'AnyAWSOperation')
+        )
+
+    # then
+    assert program_exists(raised_error, expected_code=1)
+    assert extract_output(capsys) == {
+        'stdout': [],
+        'stderr': [
+            "! ERROR: the program stopped due to the following issue.",
+            "! ClientError('An error occurred (Unknown) when calling the AnyAWSOperation operation: Unknown')",
         ],
     }
 
