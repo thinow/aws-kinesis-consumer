@@ -11,10 +11,10 @@ Consume an [AWS Kinesis Data Stream](https://aws.amazon.com/kinesis/data-streams
 
 ```shell
 $ aws-kinesis-consumer --stream-name MyStream
-
-<shard_id=shardId-000000000000, records=1>
+> preparing streams 2/2
+> shard_id=shardId-000000000000, records=1
 Record-001
-<shard_id=shardId-000000000001, records=2>
+> shard_id=shardId-000000000001, records=2
 Record-002
 Record-003
 ```

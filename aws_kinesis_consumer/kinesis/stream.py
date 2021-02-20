@@ -19,7 +19,7 @@ class Stream:
         shards = self.find_shards(kinesis)
 
         progress = Progress(
-            text='preparing streams iterators',
+            text='preparing streams',
             max_value=len(shards),
             printer=self.printer,
         )
