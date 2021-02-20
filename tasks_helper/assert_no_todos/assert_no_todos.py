@@ -9,7 +9,7 @@ def assert_no_todos():
 
             if root.startswith('./.git') or root.startswith('./.idea'):
                 continue
-            if filepath == './tasks_helper/assert_no_todos/assert_no_todos.py':
+            if filename == 'assert_no_todos.py':
                 continue
 
             try:
