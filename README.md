@@ -50,7 +50,7 @@ aws-kinesis-consumer --stream-name MyStream
 
 ```shell
 docker run \
-  -e AWS_DEFAULT_REGION=eu-central-1 \
+  -e AWS_DEFAULT_REGION \
   -e AWS_ACCESS_KEY_ID \
   -e AWS_SECRET_ACCESS_KEY \
   -e AWS_SESSION_TOKEN \
@@ -63,11 +63,12 @@ docker run \
 | ---- | --- | ------- | ----------- |
 | `-s` | `--stream-name` |  | **REQUIRED** Name of the AWS Kinesis Stream. |
 | `-e` | `--endpoint` |  | Custom AWS endpoint url to communicate with the AWS API. Could be used in order to specify a region (e.g. `https://kinesis.us-east-1.amazonaws.com/`). |
-| `-i` | `--iterator-type` | ` latest` | Defines how to start consuming records from the stream. Use `latest` to consume the new records only. Or use `trim-horizon` to consume all the records already existing in the stream. |
-| `-m` | `--max-records-per-request` | ` 10` | Defines the maximum number of records per request. |
+| `-i` | `--iterator-type` | `latest` | Defines how to start consuming records from the stream. Use `latest` to consume the new records only. Or use `trim-horizon` to consume all the records already existing in the stream. |
+| `-m` | `--max-records-per-request` | `10` | Defines the maximum number of records per request. |
+| `-r` | `--region` |  | AWS region of the stream (e.g. `us-east-1`). By default, the AWS region available in your terminal (e.g. environment variable `AWS_DEFAULT_REGION`). |
 |<img width="130"/>|<img width="400"/>|<img width="0"/>|<img width="0"/>|
-| `-h` | `--help` | | Prints the help message. |
-| `-v` | `--version` | | Prints the version of the binary. |
+| `-h` | `--help` |  | Prints the help message. |
+| `-v` | `--version` |  | Prints the version of the binary. |
 
 ## FAQ
 
@@ -77,16 +78,8 @@ The [AWS CLI](https://awscli.amazonaws.com/v2/documentation/api/latest/reference
 records from Kinesis, but the users need to list the shards, to generate iterator tokens, use subsequent tokens, delay
 operations, and so on.
 
-``aws-kinesis-consumers`` in contrary is able to get records by using the stream name, and only the stream name.
-Therefore there is no need for an extra script.
-
-### How to consume a stream hosted in different regions ?
-
-The environment variable `AWS_DEFAULT_REGION` can be used to specify any AWS region.
-
-```shell
-AWS_DEFAULT_REGION=eu-central-1 aws-kinesis-consumer --stream-name MyGermanStream
-```
+`aws-kinesis-consumer` in contrary is able to get records by using the stream name, and only the stream name. Therefore
+there is no need for an extra script.
 
 ### How to filter the records ?
 
