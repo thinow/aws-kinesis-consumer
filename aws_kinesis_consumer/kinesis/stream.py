@@ -15,8 +15,6 @@ class Stream:
         self.configuration = configuration
 
     def prepare(self):
-        self.printer.info('preparing stream')
-
         kinesis = self.aws_services_factory.create_kinesis(self.configuration)
         shards = self.find_shards(kinesis)
 
