@@ -71,6 +71,7 @@ class ConfigurationFactory:
         parsed = self.parser.parse_args(arguments)
         return Configuration(
             stream_name=parsed.stream_name,
+            region=parsed.region,
             endpoint=parsed.endpoint,
             iterator_type=self.get_iterator_type(parsed.iterator_type),
             # delay recommended by AWS, see https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html

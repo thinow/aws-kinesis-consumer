@@ -63,6 +63,16 @@ def test_endpoint_defaults_to_none():
     assert configuration.endpoint is None
 
 
+def test_region():
+    configuration = parse('--stream-name STREAM --region eu-central-1')
+    assert configuration.region == 'eu-central-1'
+
+
+def test_region_defaults_to_none():
+    configuration = parse('--stream-name STREAM')
+    assert configuration.region is None
+
+
 def test_iterator_type():
     configuration = parse('--stream-name STREAM --iterator-type trim-horizon')
     assert configuration.iterator_type == IteratorType.TRIM_HORIZON

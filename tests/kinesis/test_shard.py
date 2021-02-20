@@ -173,11 +173,10 @@ def create_shard():
     kinesis.get_records.return_value = {'Records': []}
 
     configuration = Configuration(
-        STREAM_NAME,
-        ITERATOR_TYPE,
-        None,
-        DELAY_IN_MILS,
-        MAX_NB_OF_RECORDS,
+        stream_name=STREAM_NAME,
+        iterator_type=ITERATOR_TYPE,
+        delay_in_ms=DELAY_IN_MILS,
+        max_records_per_request=MAX_NB_OF_RECORDS,
     )
 
     shard = Shard(SHARD_ID, configuration, kinesis, Printer())
