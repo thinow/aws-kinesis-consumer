@@ -1,5 +1,5 @@
-import typing
 from enum import Enum
+from typing import Optional
 
 
 class IteratorTypeProperties:
@@ -30,8 +30,8 @@ class Configuration:
                  delay_in_ms: int,
                  max_records_per_request: int,
                  verbose: bool,
-                 region: typing.Optional[str] = None,
-                 endpoint: typing.Optional[str] = None,
+                 region: Optional[str] = None,
+                 endpoint: Optional[str] = None,
                  ):
         self.stream_name = stream_name
         self.iterator_type = iterator_type
