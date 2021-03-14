@@ -24,6 +24,8 @@ optional arguments:
                         default to the AWS region defined for the terminal
                         (e.g. AWS_DEFAULT_REGION environment variable).
   -v, --version         show program's version number and exit
+  -V, --verbose         Prints the full stack trace to get more details when
+                        an error is raised.
 
 required named arguments:
   -s STREAM_NAME, --stream-name STREAM_NAME

@@ -67,6 +67,12 @@ class ConfigurationFactory:
             version=AWS_KINESIS_CONSUMER_VERSION
         )
 
+        self.parser.add_argument(
+            '-V', '--verbose',
+            action='store_true',
+            help='Prints the full stack trace to get more details when an error is raised.',
+        )
+
     def create_configuration(self, arguments: list) -> Configuration:
         parsed = self.parser.parse_args(arguments)
         return Configuration(
