@@ -29,6 +29,7 @@ class Configuration:
                  iterator_type: IteratorType,
                  delay_in_ms: int,
                  max_records_per_request: int,
+                 verbose: bool,
                  region: typing.Optional[str] = None,
                  endpoint: typing.Optional[str] = None,
                  ):
@@ -38,6 +39,7 @@ class Configuration:
         self.max_records_per_request = max_records_per_request
         self.region = region
         self.endpoint = endpoint
+        self.verbose = verbose
 
     def __str__(self) -> str:
         return f'Configuration<stream_name={self.stream_name}>'

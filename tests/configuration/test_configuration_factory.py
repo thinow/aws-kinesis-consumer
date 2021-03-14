@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from aws_kinesis_consumer.configuration.configuration import IteratorType
+from aws_kinesis_consumer.configuration.configuration import IteratorType, Configuration
 from aws_kinesis_consumer.configuration.factory import ConfigurationFactory
 
 
@@ -89,7 +89,17 @@ def test_iterator_type_fails_on_unknown_values():
     assert str(error.value) == '2'
 
 
-def parse(arguments_as_str):
+def test_verbose():
+    configuration = parse('--stream-name STREAM --verbose')
+    assert configuration.verbose
+
+
+def test_verbose_defaults_to_false():
+    configuration = parse('--stream-name STREAM')
+    assert not configuration.verbose
+
+
+def parse(arguments_as_str) -> Configuration:
     factory = ConfigurationFactory()
     arguments_as_list = arguments_as_str.split(' ')
     return factory.create_configuration(arguments_as_list)

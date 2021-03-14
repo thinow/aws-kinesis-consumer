@@ -177,6 +177,7 @@ def create_shard():
         iterator_type=ITERATOR_TYPE,
         delay_in_ms=DELAY_IN_MILS,
         max_records_per_request=MAX_NB_OF_RECORDS,
+        verbose=False,
     )
 
     shard = Shard(SHARD_ID, configuration, kinesis, Printer())

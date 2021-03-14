@@ -83,6 +83,7 @@ class ConfigurationFactory:
             # delay recommended by AWS, see https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html
             delay_in_ms=1_000,
             max_records_per_request=parsed.max_records_per_request,
+            verbose=parsed.verbose,
         )
 
     @staticmethod
