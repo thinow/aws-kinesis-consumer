@@ -11,15 +11,15 @@ def main():
     arguments = sys.argv[1:]
 
     printer = Printer()
+    configuration = None
 
     try:
-        configuration_factory = ConfigurationFactory()
-        aws_services_factory = AWSServicesFactory()
+        configuration = ConfigurationFactory().create_configuration(arguments)
 
         stream = Stream(
-            aws_services_factory=aws_services_factory,
+            aws_services_factory=AWSServicesFactory(),
             printer=printer,
-            configuration=configuration_factory.create_configuration(arguments),
+            configuration=configuration,
         )
 
         stream.prepare()
@@ -27,4 +27,4 @@ def main():
             stream.print_records()
 
     except BaseException as error:
-        ErrorHandler(printer).handle(error)
+        ErrorHandler(printer, configuration).handle(error)

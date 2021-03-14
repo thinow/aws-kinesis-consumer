@@ -1,13 +1,17 @@
+from typing import Optional
+
 from botocore.exceptions import NoRegionError, NoCredentialsError, PartialCredentialsError, CredentialRetrievalError, \
     ClientError
 
+from aws_kinesis_consumer.configuration.configuration import Configuration
 from aws_kinesis_consumer.ui.printer import Printer
 
 
 class ErrorHandler:
 
-    def __init__(self, printer: Printer) -> None:
+    def __init__(self, printer: Printer, configuration: Optional[Configuration] = None) -> None:
         self.printer = printer
+        self.verbose = configuration.verbose if configuration else False
 
     def handle(self, error: BaseException) -> None:
         # User intentionally interrupts the program. Ignore the exception and exit.
