@@ -131,6 +131,11 @@ The following policy is an example which can be applied to an AWS user or an AWS
 }
 ```
 
+### How to contribute to the project ?
+
+[See the guidelines in the CONTRIBUTING.md file](https://github.com/thinow/aws-kinesis-consumer/blob/master/CONTRIBUTING.md)
+.
+
 ## Changelog
 
 [See all the changes per release](https://github.com/thinow/aws-kinesis-consumer/blob/master/CHANGELOG.md).
