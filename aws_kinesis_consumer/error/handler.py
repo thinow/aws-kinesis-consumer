@@ -14,8 +14,10 @@ class ErrorHandler:
         self.verbose = configuration.verbose if configuration else False
 
     def handle(self, error: BaseException) -> None:
-        # User intentionally interrupts the program. Ignore the exception and exit.
-        if isinstance(error, KeyboardInterrupt):
+        if self.verbose:
+            raise error
+        elif isinstance(error, KeyboardInterrupt):
+            # User intentionally interrupts the program. Ignore the exception and exit.
             raise SystemExit(0)
         elif isinstance(error, SystemExit):
             raise SystemExit(error.code)
