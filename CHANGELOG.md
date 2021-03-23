@@ -1,3 +1,9 @@
+# 1.4.0 (2021-03-23)
+
+1. **Added feature** : `-V / --verbose` argument to print details of errors which stop the application.
+2. **Dependency** : update all dependencies in order to solve a [vulnerability](https://github.com/advisories/GHSA-5phf-pp7p-vc2r),
+    also upgrade the AWS library `boto3` from `1.16.39` to `1.17.34`
+
 # 1.3.0 (2021-02-20)
 
 1. **Added feature** : `-r / --region` argument to define the AWS region.
