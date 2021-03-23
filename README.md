@@ -68,6 +68,7 @@ docker run \
 | `-r` | `--region` |  | AWS region of the stream (e.g. `us-east-1`). By default, the AWS region available in your terminal (e.g. environment variable `AWS_DEFAULT_REGION`). |
 |<img width="130"/>|<img width="400"/>|<img width="0"/>|<img width="0"/>|
 | `-h` | `--help` |  | Prints the help message. |
+| `-V` | `--verbose` |  | Prints all the details when an error stops the application. |
 | `-v` | `--version` |  | Prints the version of the binary. |
 
 ## FAQ
