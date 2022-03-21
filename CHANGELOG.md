@@ -1,3 +1,7 @@
+# 1.4.1 (2022-03-21)
+
+1. **Dependency** : update urllib in order to solve a [vulnerability](https://jvn.jp/en/vu/JVNVU92413403/),
+
 # 1.4.0 (2021-03-23)
 
 1. **Added feature** : `-V / --verbose` argument to print details of errors which stop the application.
